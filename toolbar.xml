@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<toolbar>
-    <item id="pronosticos" type="button" text="Registro Pronósticos" img="pronosticos.gif"/>
-    <item id="posiciones" type="button" text="Tabla de Posiciones" img="tabla_posiciones.gif"/>   
-    <item id="sep01" type="separator"/>         
-    <item id="salir" type="button" text="Salir"/>
-</toolbar>
