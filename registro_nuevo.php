@@ -26,9 +26,52 @@
 }
 -->
 </style></head>
-<body bgcolor="#ffffff" onload="forma.nombre.focus();">
+<SCRIPT language=JavaScript>
+function ponerFoco() {
+	document.forma.nombre.focus();
+}
+function validar() {
+	nom = document.getElementById('nombre').value;
+	em1 = document.getElementById('correo').value;
+	em2 = document.getElementById('ccorreo').value;
+	cl1 = document.getElementById('clave').value;
+	cl2 = document.getElementById('cclave').value;
+	ke = document.getElementById('key').value;
+	kec = document.getElementById('keyimg').value;
+	if(nom == '') {
+		alert('Debe ingresar un nombre válido!!!');
+		return false;
+	}
+	if(em1 == '' || em2 == '') {
+		alert('Debe ingresar un correo válido!!!');
+		return false;
+	}
+	if(cl1 == '' || cl2 == '') {
+		alert('Debe ingresar una clave válida!!!');
+		return false;
+	}
+	if(em1 != em2) {
+		alert('El correo electrónico y su confirmación no coinciden!!!');
+		return false;
+	}
+	if(cl1 != cl2) {
+		alert('La clave y su confirmación no coinciden!!!');
+		return false;
+	}
+	if(ke == '') {
+		alert('Debe ingresar el key de Invitación!!!');
+		return false;
+	}
+	if(kec == '') {
+		alert('Debe ingresar el texto en la imagen!!!');
+		return false;
+	}
+	document.forma.submit();
+}
+</SCRIPT>
+<body bgcolor="#ffffff" onload="ponerFoco();">
   <p>&nbsp;</p>
-  <form name="forma" method="post" action="">
+  <form name="forma" method="post" action="registro_nuevo_handler.php">
   <table width="500" border="0" align="center" cellpadding="0" cellspacing="0">
     <!-- fwtable fwsrc="login.png" fwbase="logo.gif" fwstyle="Dreamweaver" fwdocid = "2086942953" fwnested="0" -->
     <tr>
@@ -86,7 +129,7 @@
           </tr>
           <tr>
             <td><div align="right"><strong><span class="style2">Confirma Clave</span></strong></div></td>
-            <td><input name="cclave" type="password" id="cclave2" size="30"></td>
+            <td><input name="cclave" type="password" id="cclave" size="30"></td>
           </tr>
           <tr>
             <td><div align="right"><strong><span class="style2">Key Invitaci&oacute;n </span></strong></div></td>
@@ -107,7 +150,7 @@
     </tr>
     <tr>
       <td colspan="5"><div align="center">
-        <input type="submit" name="Submit" value="Registrar">
+        <input type="button" name="Submit" value="Registrar" onclick="validar();">
       </div></td>
       <td><img src="icons/spacer.gif" width="1" height="32" border="0" alt=""></td>
     </tr>
