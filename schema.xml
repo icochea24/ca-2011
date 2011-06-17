@@ -31,14 +31,20 @@
   </table>
   <table name="partido" schema="pollaca2011_sch" phpName="Partido">
     <column name="idpartido" phpName="Idpartido" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="equipo1" phpName="Equipo1" type="INTEGER" required="true"/>
-    <column name="equipo2" phpName="Equipo2" type="INTEGER" required="true"/>
+    <column name="idequipo1" phpName="Idequipo1" type="INTEGER" required="true"/>
+    <column name="idequipo2" phpName="Idequipo2" type="INTEGER" required="true"/>
     <column name="resultadoequipo1" phpName="Resultadoequipo1" type="INTEGER" required="false"/>
     <column name="resultadoequipo2" phpName="Resultadoequipo2" type="INTEGER" required="false"/>
     <column name="fechahora" phpName="Fechahora" type="TIMESTAMP" required="true"/>
     <column name="sede" phpName="Sede" type="VARCHAR" size="60" required="true"/>
     <column name="jugado" phpName="Jugado" type="VARCHAR" size="1" required="true"/>
 	<id-method-parameter value="pollaca2011_sch.sq_partido"/>
+    <foreign-key foreignTable="equipo" foreignSchema="pollaca2011_sch" name="Ref_partido_to_equipo">
+      <reference local="idequipo1" foreign="idequipo"/>
+    </foreign-key>
+    <foreign-key foreignTable="equipo" foreignSchema="pollaca2011_sch" name="Ref_partido_to_equipo0">
+      <reference local="idequipo2" foreign="idequipo"/>
+    </foreign-key>
   </table>
   <table name="pronostico" schema="pollaca2011_sch" phpName="Pronostico">
     <column name="idpronostico" phpName="Idpronostico" type="BIGINT" primaryKey="true" autoIncrement="true" required="true"/>
@@ -66,7 +72,7 @@
     <column name="email" phpName="Email" type="VARCHAR" size="97" required="true"/>
     <column name="clave" phpName="Clave" type="VARCHAR" size="50" required="true"/>
     <column name="pagook" phpName="Pagook" type="VARCHAR" size="1" required="true"/>
-    <column name="claveconfirma" phpName="Claveconfirma" type="VARCHAR" size="10" required="true"/>
+    <column name="claveconfirma" phpName="Claveconfirma" type="VARCHAR" size="32" required="true"/>
 	<id-method-parameter value="pollaca2011_sch.sq_usuario"/>
   </table>
   <table name="usuario_grupo" schema="pollaca2011_sch" phpName="UsuarioGrupo">

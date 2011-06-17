@@ -11,6 +11,13 @@ Registro realizado con &eacute;xito, un correo de confirmaci&oacute;n ha sido en
 ram;
 			$titulo = "Registro exitoso";
 			break;
+		case 2:
+			$correo = $usuario_sesion->getEmail();
+			$msg = <<<ram
+Reevio de correo procesado a $correo, por favor espere unos minutos y verifique su bandeja de entrada.<br><br>Si dentro de unos minutos no ha recibido el correo, puede hacer clic <a href="registro_nuevo_handler.php?op=2">aqui</a> para realizar una solicitud de reenvio.
+ram;
+			$titulo = "Reenvio Procesado";
+			break;
 		case -1:
 			$msg = <<<ram
 Se ha  producido un error inesperado, el mismo ya ha sido reportado al equipo t&eacute;cnico para su revisi&oacute;n, por favor intente registrarse m&aacute;s tarde.<br><br>Si desea reintentarlo ahora haga clic <a href="registro_nuevo.php">aqui</a>
@@ -28,6 +35,7 @@ ATENCION: La palabra ingresada no coincide con la imagen, intente nuevamente hac
 ram;
 			break;
 	}
+	Propel::close();
 ?>
 <html>
 <head>

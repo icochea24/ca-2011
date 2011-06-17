@@ -73,6 +73,16 @@ abstract class BaseEquipo extends BaseObject  implements Persistent
 	protected $linkbandera;
 
 	/**
+	 * @var        array Partido[] Collection to store aggregation of Partido objects.
+	 */
+	protected $collPartidosRelatedByIdequipo1;
+
+	/**
+	 * @var        array Partido[] Collection to store aggregation of Partido objects.
+	 */
+	protected $collPartidosRelatedByIdequipo2;
+
+	/**
 	 * Flag to prevent endless save loop, if this object is referenced
 	 * by another object which falls in this transaction.
 	 * @var        boolean
@@ -436,6 +446,10 @@ abstract class BaseEquipo extends BaseObject  implements Persistent
 
 		if ($deep) {  // also de-associate any related objects?
 
+			$this->collPartidosRelatedByIdequipo1 = null;
+
+			$this->collPartidosRelatedByIdequipo2 = null;
+
 		} // if (deep)
 	}
 
@@ -569,6 +583,22 @@ abstract class BaseEquipo extends BaseObject  implements Persistent
 				$this->resetModified(); // [HL] After being saved an object is no longer 'modified'
 			}
 
+			if ($this->collPartidosRelatedByIdequipo1 !== null) {
+				foreach ($this->collPartidosRelatedByIdequipo1 as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
+			if ($this->collPartidosRelatedByIdequipo2 !== null) {
+				foreach ($this->collPartidosRelatedByIdequipo2 as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
 			$this->alreadyInSave = false;
 
 		}
@@ -639,6 +669,22 @@ abstract class BaseEquipo extends BaseObject  implements Persistent
 				$failureMap = array_merge($failureMap, $retval);
 			}
 
+
+				if ($this->collPartidosRelatedByIdequipo1 !== null) {
+					foreach ($this->collPartidosRelatedByIdequipo1 as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collPartidosRelatedByIdequipo2 !== null) {
+					foreach ($this->collPartidosRelatedByIdequipo2 as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
 
 
 			$this->alreadyInValidation = false;
@@ -714,10 +760,11 @@ abstract class BaseEquipo extends BaseObject  implements Persistent
 	 *                    Defaults to BasePeer::TYPE_PHPNAME.
 	 * @param     boolean $includeLazyLoadColumns (optional) Whether to include lazy loaded columns. Defaults to TRUE.
 	 * @param     array $alreadyDumpedObjects List of objects to skip to avoid recursion
+	 * @param     boolean $includeForeignObjects (optional) Whether to include hydrated related objects. Default to FALSE.
 	 *
 	 * @return    array an associative array containing the field names (as keys) and field values
 	 */
-	public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array())
+	public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
 	{
 		if (isset($alreadyDumpedObjects['Equipo'][$this->getPrimaryKey()])) {
 			return '*RECURSION*';
@@ -734,6 +781,14 @@ abstract class BaseEquipo extends BaseObject  implements Persistent
 			$keys[6] => $this->getCampeon(),
 			$keys[7] => $this->getLinkbandera(),
 		);
+		if ($includeForeignObjects) {
+			if (null !== $this->collPartidosRelatedByIdequipo1) {
+				$result['PartidosRelatedByIdequipo1'] = $this->collPartidosRelatedByIdequipo1->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+			}
+			if (null !== $this->collPartidosRelatedByIdequipo2) {
+				$result['PartidosRelatedByIdequipo2'] = $this->collPartidosRelatedByIdequipo2->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+			}
+		}
 		return $result;
 	}
 
@@ -908,6 +963,26 @@ abstract class BaseEquipo extends BaseObject  implements Persistent
 		$copyObj->setVicecampeon($this->getVicecampeon());
 		$copyObj->setCampeon($this->getCampeon());
 		$copyObj->setLinkbandera($this->getLinkbandera());
+
+		if ($deepCopy) {
+			// important: temporarily setNew(false) because this affects the behavior of
+			// the getter/setter methods for fkey referrer objects.
+			$copyObj->setNew(false);
+
+			foreach ($this->getPartidosRelatedByIdequipo1() as $relObj) {
+				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+					$copyObj->addPartidoRelatedByIdequipo1($relObj->copy($deepCopy));
+				}
+			}
+
+			foreach ($this->getPartidosRelatedByIdequipo2() as $relObj) {
+				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+					$copyObj->addPartidoRelatedByIdequipo2($relObj->copy($deepCopy));
+				}
+			}
+
+		} // if ($deepCopy)
+
 		if ($makeNew) {
 			$copyObj->setNew(true);
 			$copyObj->setIdequipo(NULL); // this is a auto-increment column, so set to default value
@@ -953,6 +1028,236 @@ abstract class BaseEquipo extends BaseObject  implements Persistent
 	}
 
 	/**
+	 * Clears out the collPartidosRelatedByIdequipo1 collection
+	 *
+	 * This does not modify the database; however, it will remove any associated objects, causing
+	 * them to be refetched by subsequent calls to accessor method.
+	 *
+	 * @return     void
+	 * @see        addPartidosRelatedByIdequipo1()
+	 */
+	public function clearPartidosRelatedByIdequipo1()
+	{
+		$this->collPartidosRelatedByIdequipo1 = null; // important to set this to NULL since that means it is uninitialized
+	}
+
+	/**
+	 * Initializes the collPartidosRelatedByIdequipo1 collection.
+	 *
+	 * By default this just sets the collPartidosRelatedByIdequipo1 collection to an empty array (like clearcollPartidosRelatedByIdequipo1());
+	 * however, you may wish to override this method in your stub class to provide setting appropriate
+	 * to your application -- for example, setting the initial array to the values stored in database.
+	 *
+	 * @param      boolean $overrideExisting If set to true, the method call initializes
+	 *                                        the collection even if it is not empty
+	 *
+	 * @return     void
+	 */
+	public function initPartidosRelatedByIdequipo1($overrideExisting = true)
+	{
+		if (null !== $this->collPartidosRelatedByIdequipo1 && !$overrideExisting) {
+			return;
+		}
+		$this->collPartidosRelatedByIdequipo1 = new PropelObjectCollection();
+		$this->collPartidosRelatedByIdequipo1->setModel('Partido');
+	}
+
+	/**
+	 * Gets an array of Partido objects which contain a foreign key that references this object.
+	 *
+	 * If the $criteria is not null, it is used to always fetch the results from the database.
+	 * Otherwise the results are fetched from the database the first time, then cached.
+	 * Next time the same method is called without $criteria, the cached collection is returned.
+	 * If this Equipo is new, it will return
+	 * an empty collection or the current collection; the criteria is ignored on a new object.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @return     PropelCollection|array Partido[] List of Partido objects
+	 * @throws     PropelException
+	 */
+	public function getPartidosRelatedByIdequipo1($criteria = null, PropelPDO $con = null)
+	{
+		if(null === $this->collPartidosRelatedByIdequipo1 || null !== $criteria) {
+			if ($this->isNew() && null === $this->collPartidosRelatedByIdequipo1) {
+				// return empty collection
+				$this->initPartidosRelatedByIdequipo1();
+			} else {
+				$collPartidosRelatedByIdequipo1 = PartidoQuery::create(null, $criteria)
+					->filterByEquipoRelatedByIdequipo1($this)
+					->find($con);
+				if (null !== $criteria) {
+					return $collPartidosRelatedByIdequipo1;
+				}
+				$this->collPartidosRelatedByIdequipo1 = $collPartidosRelatedByIdequipo1;
+			}
+		}
+		return $this->collPartidosRelatedByIdequipo1;
+	}
+
+	/**
+	 * Returns the number of related Partido objects.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      PropelPDO $con
+	 * @return     int Count of related Partido objects.
+	 * @throws     PropelException
+	 */
+	public function countPartidosRelatedByIdequipo1(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+	{
+		if(null === $this->collPartidosRelatedByIdequipo1 || null !== $criteria) {
+			if ($this->isNew() && null === $this->collPartidosRelatedByIdequipo1) {
+				return 0;
+			} else {
+				$query = PartidoQuery::create(null, $criteria);
+				if($distinct) {
+					$query->distinct();
+				}
+				return $query
+					->filterByEquipoRelatedByIdequipo1($this)
+					->count($con);
+			}
+		} else {
+			return count($this->collPartidosRelatedByIdequipo1);
+		}
+	}
+
+	/**
+	 * Method called to associate a Partido object to this object
+	 * through the Partido foreign key attribute.
+	 *
+	 * @param      Partido $l Partido
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function addPartidoRelatedByIdequipo1(Partido $l)
+	{
+		if ($this->collPartidosRelatedByIdequipo1 === null) {
+			$this->initPartidosRelatedByIdequipo1();
+		}
+		if (!$this->collPartidosRelatedByIdequipo1->contains($l)) { // only add it if the **same** object is not already associated
+			$this->collPartidosRelatedByIdequipo1[]= $l;
+			$l->setEquipoRelatedByIdequipo1($this);
+		}
+	}
+
+	/**
+	 * Clears out the collPartidosRelatedByIdequipo2 collection
+	 *
+	 * This does not modify the database; however, it will remove any associated objects, causing
+	 * them to be refetched by subsequent calls to accessor method.
+	 *
+	 * @return     void
+	 * @see        addPartidosRelatedByIdequipo2()
+	 */
+	public function clearPartidosRelatedByIdequipo2()
+	{
+		$this->collPartidosRelatedByIdequipo2 = null; // important to set this to NULL since that means it is uninitialized
+	}
+
+	/**
+	 * Initializes the collPartidosRelatedByIdequipo2 collection.
+	 *
+	 * By default this just sets the collPartidosRelatedByIdequipo2 collection to an empty array (like clearcollPartidosRelatedByIdequipo2());
+	 * however, you may wish to override this method in your stub class to provide setting appropriate
+	 * to your application -- for example, setting the initial array to the values stored in database.
+	 *
+	 * @param      boolean $overrideExisting If set to true, the method call initializes
+	 *                                        the collection even if it is not empty
+	 *
+	 * @return     void
+	 */
+	public function initPartidosRelatedByIdequipo2($overrideExisting = true)
+	{
+		if (null !== $this->collPartidosRelatedByIdequipo2 && !$overrideExisting) {
+			return;
+		}
+		$this->collPartidosRelatedByIdequipo2 = new PropelObjectCollection();
+		$this->collPartidosRelatedByIdequipo2->setModel('Partido');
+	}
+
+	/**
+	 * Gets an array of Partido objects which contain a foreign key that references this object.
+	 *
+	 * If the $criteria is not null, it is used to always fetch the results from the database.
+	 * Otherwise the results are fetched from the database the first time, then cached.
+	 * Next time the same method is called without $criteria, the cached collection is returned.
+	 * If this Equipo is new, it will return
+	 * an empty collection or the current collection; the criteria is ignored on a new object.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @return     PropelCollection|array Partido[] List of Partido objects
+	 * @throws     PropelException
+	 */
+	public function getPartidosRelatedByIdequipo2($criteria = null, PropelPDO $con = null)
+	{
+		if(null === $this->collPartidosRelatedByIdequipo2 || null !== $criteria) {
+			if ($this->isNew() && null === $this->collPartidosRelatedByIdequipo2) {
+				// return empty collection
+				$this->initPartidosRelatedByIdequipo2();
+			} else {
+				$collPartidosRelatedByIdequipo2 = PartidoQuery::create(null, $criteria)
+					->filterByEquipoRelatedByIdequipo2($this)
+					->find($con);
+				if (null !== $criteria) {
+					return $collPartidosRelatedByIdequipo2;
+				}
+				$this->collPartidosRelatedByIdequipo2 = $collPartidosRelatedByIdequipo2;
+			}
+		}
+		return $this->collPartidosRelatedByIdequipo2;
+	}
+
+	/**
+	 * Returns the number of related Partido objects.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      PropelPDO $con
+	 * @return     int Count of related Partido objects.
+	 * @throws     PropelException
+	 */
+	public function countPartidosRelatedByIdequipo2(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+	{
+		if(null === $this->collPartidosRelatedByIdequipo2 || null !== $criteria) {
+			if ($this->isNew() && null === $this->collPartidosRelatedByIdequipo2) {
+				return 0;
+			} else {
+				$query = PartidoQuery::create(null, $criteria);
+				if($distinct) {
+					$query->distinct();
+				}
+				return $query
+					->filterByEquipoRelatedByIdequipo2($this)
+					->count($con);
+			}
+		} else {
+			return count($this->collPartidosRelatedByIdequipo2);
+		}
+	}
+
+	/**
+	 * Method called to associate a Partido object to this object
+	 * through the Partido foreign key attribute.
+	 *
+	 * @param      Partido $l Partido
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function addPartidoRelatedByIdequipo2(Partido $l)
+	{
+		if ($this->collPartidosRelatedByIdequipo2 === null) {
+			$this->initPartidosRelatedByIdequipo2();
+		}
+		if (!$this->collPartidosRelatedByIdequipo2->contains($l)) { // only add it if the **same** object is not already associated
+			$this->collPartidosRelatedByIdequipo2[]= $l;
+			$l->setEquipoRelatedByIdequipo2($this);
+		}
+	}
+
+	/**
 	 * Clears the current object and sets all attributes to their default values
 	 */
 	public function clear()
@@ -985,8 +1290,26 @@ abstract class BaseEquipo extends BaseObject  implements Persistent
 	public function clearAllReferences($deep = false)
 	{
 		if ($deep) {
+			if ($this->collPartidosRelatedByIdequipo1) {
+				foreach ($this->collPartidosRelatedByIdequipo1 as $o) {
+					$o->clearAllReferences($deep);
+				}
+			}
+			if ($this->collPartidosRelatedByIdequipo2) {
+				foreach ($this->collPartidosRelatedByIdequipo2 as $o) {
+					$o->clearAllReferences($deep);
+				}
+			}
 		} // if ($deep)
 
+		if ($this->collPartidosRelatedByIdequipo1 instanceof PropelCollection) {
+			$this->collPartidosRelatedByIdequipo1->clearIterator();
+		}
+		$this->collPartidosRelatedByIdequipo1 = null;
+		if ($this->collPartidosRelatedByIdequipo2 instanceof PropelCollection) {
+			$this->collPartidosRelatedByIdequipo2->clearIterator();
+		}
+		$this->collPartidosRelatedByIdequipo2 = null;
 	}
 
 	/**

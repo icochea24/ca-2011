@@ -3,7 +3,7 @@
 class Correo {
         
     static protected $from = "Polla CA-2011 <noreplay@armosoft.com>";
-    static protected $correoError = "rafael.arteaga@armosoft.com";
+    static protected $correoError = "notificador@armosoft.com";
         
     static public function reportaCorreoError($error,$ubicacion) {
         $respuesta = true;
@@ -22,7 +22,7 @@ $error
 Saludos,
 Sistema de Reporte de Errores
 ram;
-        $correo_handler->Message($body);
+        $correo_handler->Message($body,"iso-8859-1","8bit");
         try {
             $correo_handler->Send();
         }
@@ -58,7 +58,31 @@ explorador de internet de su preferencia.
 Saludos,
 Polla CAA-2011
 ram;
-        $correo_handler->Message($body);
+        $correo_handler->Message($body,"iso-8859-1","8bit");
+        try {
+            $correo_handler->Send();
+        }
+        catch(Exception $e) {
+            $respuesta = false;   
+        }
+        return $respuesta;
+    }
+    
+    static public function envioCorreoAdministradorConfirmacion($claveConfirma) {
+        $respuesta = true;
+        $correo_handler = new activeMailLib();
+        $correo_handler->From(Correo::$from);
+        $correo_handler->To(Correo::$correoError);
+        $correo_handler->Subject("Imposible realizar confirmación de registro");
+        $body = <<<ram
+Hola,
+
+La clave de confirmación $claveConfirma NO HA PODIDO CONFIRMAR EL REGISTRO!!
+
+Saludos,
+Polla CAA-2011
+ram;
+        $correo_handler->Message($body,"iso-8859-1","8bit");
         try {
             $correo_handler->Send();
         }

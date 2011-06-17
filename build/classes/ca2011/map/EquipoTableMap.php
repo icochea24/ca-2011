@@ -54,6 +54,8 @@ class EquipoTableMap extends TableMap {
 	 */
 	public function buildRelations()
 	{
+    $this->addRelation('PartidoRelatedByIdequipo1', 'Partido', RelationMap::ONE_TO_MANY, array('idequipo' => 'idequipo1', ), null, null);
+    $this->addRelation('PartidoRelatedByIdequipo2', 'Partido', RelationMap::ONE_TO_MANY, array('idequipo' => 'idequipo2', ), null, null);
 	} // buildRelations()
 
 } // EquipoTableMap

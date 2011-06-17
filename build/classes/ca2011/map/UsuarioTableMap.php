@@ -43,7 +43,7 @@ class UsuarioTableMap extends TableMap {
 		$this->addColumn('EMAIL', 'Email', 'VARCHAR', true, 97, null);
 		$this->addColumn('CLAVE', 'Clave', 'VARCHAR', true, 50, null);
 		$this->addColumn('PAGOOK', 'Pagook', 'VARCHAR', true, 1, null);
-		$this->addColumn('CLAVECONFIRMA', 'Claveconfirma', 'VARCHAR', true, 10, null);
+		$this->addColumn('CLAVECONFIRMA', 'Claveconfirma', 'VARCHAR', true, 32, null);
 		// validators
 	} // initialize()
 

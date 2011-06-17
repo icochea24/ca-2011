@@ -31,16 +31,16 @@ abstract class BasePartido extends BaseObject  implements Persistent
 	protected $idpartido;
 
 	/**
-	 * The value for the equipo1 field.
+	 * The value for the idequipo1 field.
 	 * @var        int
 	 */
-	protected $equipo1;
+	protected $idequipo1;
 
 	/**
-	 * The value for the equipo2 field.
+	 * The value for the idequipo2 field.
 	 * @var        int
 	 */
-	protected $equipo2;
+	protected $idequipo2;
 
 	/**
 	 * The value for the resultadoequipo1 field.
@@ -73,6 +73,16 @@ abstract class BasePartido extends BaseObject  implements Persistent
 	protected $jugado;
 
 	/**
+	 * @var        Equipo
+	 */
+	protected $aEquipoRelatedByIdequipo1;
+
+	/**
+	 * @var        Equipo
+	 */
+	protected $aEquipoRelatedByIdequipo2;
+
+	/**
 	 * @var        array Pronostico[] Collection to store aggregation of Pronostico objects.
 	 */
 	protected $collPronosticos;
@@ -102,23 +112,23 @@ abstract class BasePartido extends BaseObject  implements Persistent
 	}
 
 	/**
-	 * Get the [equipo1] column value.
+	 * Get the [idequipo1] column value.
 	 * 
 	 * @return     int
 	 */
-	public function getEquipo1()
+	public function getIdequipo1()
 	{
-		return $this->equipo1;
+		return $this->idequipo1;
 	}
 
 	/**
-	 * Get the [equipo2] column value.
+	 * Get the [idequipo2] column value.
 	 * 
 	 * @return     int
 	 */
-	public function getEquipo2()
+	public function getIdequipo2()
 	{
-		return $this->equipo2;
+		return $this->idequipo2;
 	}
 
 	/**
@@ -215,44 +225,52 @@ abstract class BasePartido extends BaseObject  implements Persistent
 	} // setIdpartido()
 
 	/**
-	 * Set the value of [equipo1] column.
+	 * Set the value of [idequipo1] column.
 	 * 
 	 * @param      int $v new value
 	 * @return     Partido The current object (for fluent API support)
 	 */
-	public function setEquipo1($v)
+	public function setIdequipo1($v)
 	{
 		if ($v !== null) {
 			$v = (int) $v;
 		}
 
-		if ($this->equipo1 !== $v) {
-			$this->equipo1 = $v;
-			$this->modifiedColumns[] = PartidoPeer::EQUIPO1;
+		if ($this->idequipo1 !== $v) {
+			$this->idequipo1 = $v;
+			$this->modifiedColumns[] = PartidoPeer::IDEQUIPO1;
+		}
+
+		if ($this->aEquipoRelatedByIdequipo1 !== null && $this->aEquipoRelatedByIdequipo1->getIdequipo() !== $v) {
+			$this->aEquipoRelatedByIdequipo1 = null;
 		}
 
 		return $this;
-	} // setEquipo1()
+	} // setIdequipo1()
 
 	/**
-	 * Set the value of [equipo2] column.
+	 * Set the value of [idequipo2] column.
 	 * 
 	 * @param      int $v new value
 	 * @return     Partido The current object (for fluent API support)
 	 */
-	public function setEquipo2($v)
+	public function setIdequipo2($v)
 	{
 		if ($v !== null) {
 			$v = (int) $v;
 		}
 
-		if ($this->equipo2 !== $v) {
-			$this->equipo2 = $v;
-			$this->modifiedColumns[] = PartidoPeer::EQUIPO2;
+		if ($this->idequipo2 !== $v) {
+			$this->idequipo2 = $v;
+			$this->modifiedColumns[] = PartidoPeer::IDEQUIPO2;
+		}
+
+		if ($this->aEquipoRelatedByIdequipo2 !== null && $this->aEquipoRelatedByIdequipo2->getIdequipo() !== $v) {
+			$this->aEquipoRelatedByIdequipo2 = null;
 		}
 
 		return $this;
-	} // setEquipo2()
+	} // setIdequipo2()
 
 	/**
 	 * Set the value of [resultadoequipo1] column.
@@ -389,8 +407,8 @@ abstract class BasePartido extends BaseObject  implements Persistent
 		try {
 
 			$this->idpartido = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
-			$this->equipo1 = ($row[$startcol + 1] !== null) ? (int) $row[$startcol + 1] : null;
-			$this->equipo2 = ($row[$startcol + 2] !== null) ? (int) $row[$startcol + 2] : null;
+			$this->idequipo1 = ($row[$startcol + 1] !== null) ? (int) $row[$startcol + 1] : null;
+			$this->idequipo2 = ($row[$startcol + 2] !== null) ? (int) $row[$startcol + 2] : null;
 			$this->resultadoequipo1 = ($row[$startcol + 3] !== null) ? (int) $row[$startcol + 3] : null;
 			$this->resultadoequipo2 = ($row[$startcol + 4] !== null) ? (int) $row[$startcol + 4] : null;
 			$this->fechahora = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
@@ -427,6 +445,12 @@ abstract class BasePartido extends BaseObject  implements Persistent
 	public function ensureConsistency()
 	{
 
+		if ($this->aEquipoRelatedByIdequipo1 !== null && $this->idequipo1 !== $this->aEquipoRelatedByIdequipo1->getIdequipo()) {
+			$this->aEquipoRelatedByIdequipo1 = null;
+		}
+		if ($this->aEquipoRelatedByIdequipo2 !== null && $this->idequipo2 !== $this->aEquipoRelatedByIdequipo2->getIdequipo()) {
+			$this->aEquipoRelatedByIdequipo2 = null;
+		}
 	} // ensureConsistency
 
 	/**
@@ -466,6 +490,8 @@ abstract class BasePartido extends BaseObject  implements Persistent
 
 		if ($deep) {  // also de-associate any related objects?
 
+			$this->aEquipoRelatedByIdequipo1 = null;
+			$this->aEquipoRelatedByIdequipo2 = null;
 			$this->collPronosticos = null;
 
 		} // if (deep)
@@ -578,6 +604,25 @@ abstract class BasePartido extends BaseObject  implements Persistent
 		if (!$this->alreadyInSave) {
 			$this->alreadyInSave = true;
 
+			// We call the save method on the following object(s) if they
+			// were passed to this object by their coresponding set
+			// method.  This object relates to these object(s) by a
+			// foreign key reference.
+
+			if ($this->aEquipoRelatedByIdequipo1 !== null) {
+				if ($this->aEquipoRelatedByIdequipo1->isModified() || $this->aEquipoRelatedByIdequipo1->isNew()) {
+					$affectedRows += $this->aEquipoRelatedByIdequipo1->save($con);
+				}
+				$this->setEquipoRelatedByIdequipo1($this->aEquipoRelatedByIdequipo1);
+			}
+
+			if ($this->aEquipoRelatedByIdequipo2 !== null) {
+				if ($this->aEquipoRelatedByIdequipo2->isModified() || $this->aEquipoRelatedByIdequipo2->isNew()) {
+					$affectedRows += $this->aEquipoRelatedByIdequipo2->save($con);
+				}
+				$this->setEquipoRelatedByIdequipo2($this->aEquipoRelatedByIdequipo2);
+			}
+
 			if ($this->isNew() ) {
 				$this->modifiedColumns[] = PartidoPeer::IDPARTIDO;
 			}
@@ -591,11 +636,11 @@ abstract class BasePartido extends BaseObject  implements Persistent
 					}
 
 					$pk = BasePeer::doInsert($criteria, $con);
-					$affectedRows = 1;
+					$affectedRows += 1;
 					$this->setIdpartido($pk);  //[IMV] update autoincrement primary key
 					$this->setNew(false);
 				} else {
-					$affectedRows = PartidoPeer::doUpdate($this, $con);
+					$affectedRows += PartidoPeer::doUpdate($this, $con);
 				}
 
 				$this->resetModified(); // [HL] After being saved an object is no longer 'modified'
@@ -675,6 +720,24 @@ abstract class BasePartido extends BaseObject  implements Persistent
 			$failureMap = array();
 
 
+			// We call the validate method on the following object(s) if they
+			// were passed to this object by their coresponding set
+			// method.  This object relates to these object(s) by a
+			// foreign key reference.
+
+			if ($this->aEquipoRelatedByIdequipo1 !== null) {
+				if (!$this->aEquipoRelatedByIdequipo1->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aEquipoRelatedByIdequipo1->getValidationFailures());
+				}
+			}
+
+			if ($this->aEquipoRelatedByIdequipo2 !== null) {
+				if (!$this->aEquipoRelatedByIdequipo2->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aEquipoRelatedByIdequipo2->getValidationFailures());
+				}
+			}
+
+
 			if (($retval = PartidoPeer::doValidate($this, $columns)) !== true) {
 				$failureMap = array_merge($failureMap, $retval);
 			}
@@ -725,10 +788,10 @@ abstract class BasePartido extends BaseObject  implements Persistent
 				return $this->getIdpartido();
 				break;
 			case 1:
-				return $this->getEquipo1();
+				return $this->getIdequipo1();
 				break;
 			case 2:
-				return $this->getEquipo2();
+				return $this->getIdequipo2();
 				break;
 			case 3:
 				return $this->getResultadoequipo1();
@@ -775,8 +838,8 @@ abstract class BasePartido extends BaseObject  implements Persistent
 		$keys = PartidoPeer::getFieldNames($keyType);
 		$result = array(
 			$keys[0] => $this->getIdpartido(),
-			$keys[1] => $this->getEquipo1(),
-			$keys[2] => $this->getEquipo2(),
+			$keys[1] => $this->getIdequipo1(),
+			$keys[2] => $this->getIdequipo2(),
 			$keys[3] => $this->getResultadoequipo1(),
 			$keys[4] => $this->getResultadoequipo2(),
 			$keys[5] => $this->getFechahora(),
@@ -784,6 +847,12 @@ abstract class BasePartido extends BaseObject  implements Persistent
 			$keys[7] => $this->getJugado(),
 		);
 		if ($includeForeignObjects) {
+			if (null !== $this->aEquipoRelatedByIdequipo1) {
+				$result['EquipoRelatedByIdequipo1'] = $this->aEquipoRelatedByIdequipo1->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+			}
+			if (null !== $this->aEquipoRelatedByIdequipo2) {
+				$result['EquipoRelatedByIdequipo2'] = $this->aEquipoRelatedByIdequipo2->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+			}
 			if (null !== $this->collPronosticos) {
 				$result['Pronosticos'] = $this->collPronosticos->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
 			}
@@ -822,10 +891,10 @@ abstract class BasePartido extends BaseObject  implements Persistent
 				$this->setIdpartido($value);
 				break;
 			case 1:
-				$this->setEquipo1($value);
+				$this->setIdequipo1($value);
 				break;
 			case 2:
-				$this->setEquipo2($value);
+				$this->setIdequipo2($value);
 				break;
 			case 3:
 				$this->setResultadoequipo1($value);
@@ -867,8 +936,8 @@ abstract class BasePartido extends BaseObject  implements Persistent
 		$keys = PartidoPeer::getFieldNames($keyType);
 
 		if (array_key_exists($keys[0], $arr)) $this->setIdpartido($arr[$keys[0]]);
-		if (array_key_exists($keys[1], $arr)) $this->setEquipo1($arr[$keys[1]]);
-		if (array_key_exists($keys[2], $arr)) $this->setEquipo2($arr[$keys[2]]);
+		if (array_key_exists($keys[1], $arr)) $this->setIdequipo1($arr[$keys[1]]);
+		if (array_key_exists($keys[2], $arr)) $this->setIdequipo2($arr[$keys[2]]);
 		if (array_key_exists($keys[3], $arr)) $this->setResultadoequipo1($arr[$keys[3]]);
 		if (array_key_exists($keys[4], $arr)) $this->setResultadoequipo2($arr[$keys[4]]);
 		if (array_key_exists($keys[5], $arr)) $this->setFechahora($arr[$keys[5]]);
@@ -886,8 +955,8 @@ abstract class BasePartido extends BaseObject  implements Persistent
 		$criteria = new Criteria(PartidoPeer::DATABASE_NAME);
 
 		if ($this->isColumnModified(PartidoPeer::IDPARTIDO)) $criteria->add(PartidoPeer::IDPARTIDO, $this->idpartido);
-		if ($this->isColumnModified(PartidoPeer::EQUIPO1)) $criteria->add(PartidoPeer::EQUIPO1, $this->equipo1);
-		if ($this->isColumnModified(PartidoPeer::EQUIPO2)) $criteria->add(PartidoPeer::EQUIPO2, $this->equipo2);
+		if ($this->isColumnModified(PartidoPeer::IDEQUIPO1)) $criteria->add(PartidoPeer::IDEQUIPO1, $this->idequipo1);
+		if ($this->isColumnModified(PartidoPeer::IDEQUIPO2)) $criteria->add(PartidoPeer::IDEQUIPO2, $this->idequipo2);
 		if ($this->isColumnModified(PartidoPeer::RESULTADOEQUIPO1)) $criteria->add(PartidoPeer::RESULTADOEQUIPO1, $this->resultadoequipo1);
 		if ($this->isColumnModified(PartidoPeer::RESULTADOEQUIPO2)) $criteria->add(PartidoPeer::RESULTADOEQUIPO2, $this->resultadoequipo2);
 		if ($this->isColumnModified(PartidoPeer::FECHAHORA)) $criteria->add(PartidoPeer::FECHAHORA, $this->fechahora);
@@ -955,8 +1024,8 @@ abstract class BasePartido extends BaseObject  implements Persistent
 	 */
 	public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
 	{
-		$copyObj->setEquipo1($this->getEquipo1());
-		$copyObj->setEquipo2($this->getEquipo2());
+		$copyObj->setIdequipo1($this->getIdequipo1());
+		$copyObj->setIdequipo2($this->getIdequipo2());
 		$copyObj->setResultadoequipo1($this->getResultadoequipo1());
 		$copyObj->setResultadoequipo2($this->getResultadoequipo2());
 		$copyObj->setFechahora($this->getFechahora());
@@ -1018,6 +1087,104 @@ abstract class BasePartido extends BaseObject  implements Persistent
 			self::$peer = new PartidoPeer();
 		}
 		return self::$peer;
+	}
+
+	/**
+	 * Declares an association between this object and a Equipo object.
+	 *
+	 * @param      Equipo $v
+	 * @return     Partido The current object (for fluent API support)
+	 * @throws     PropelException
+	 */
+	public function setEquipoRelatedByIdequipo1(Equipo $v = null)
+	{
+		if ($v === null) {
+			$this->setIdequipo1(NULL);
+		} else {
+			$this->setIdequipo1($v->getIdequipo());
+		}
+
+		$this->aEquipoRelatedByIdequipo1 = $v;
+
+		// Add binding for other direction of this n:n relationship.
+		// If this object has already been added to the Equipo object, it will not be re-added.
+		if ($v !== null) {
+			$v->addPartidoRelatedByIdequipo1($this);
+		}
+
+		return $this;
+	}
+
+
+	/**
+	 * Get the associated Equipo object
+	 *
+	 * @param      PropelPDO Optional Connection object.
+	 * @return     Equipo The associated Equipo object.
+	 * @throws     PropelException
+	 */
+	public function getEquipoRelatedByIdequipo1(PropelPDO $con = null)
+	{
+		if ($this->aEquipoRelatedByIdequipo1 === null && ($this->idequipo1 !== null)) {
+			$this->aEquipoRelatedByIdequipo1 = EquipoQuery::create()->findPk($this->idequipo1, $con);
+			/* The following can be used additionally to
+				guarantee the related object contains a reference
+				to this object.  This level of coupling may, however, be
+				undesirable since it could result in an only partially populated collection
+				in the referenced object.
+				$this->aEquipoRelatedByIdequipo1->addPartidosRelatedByIdequipo1($this);
+			 */
+		}
+		return $this->aEquipoRelatedByIdequipo1;
+	}
+
+	/**
+	 * Declares an association between this object and a Equipo object.
+	 *
+	 * @param      Equipo $v
+	 * @return     Partido The current object (for fluent API support)
+	 * @throws     PropelException
+	 */
+	public function setEquipoRelatedByIdequipo2(Equipo $v = null)
+	{
+		if ($v === null) {
+			$this->setIdequipo2(NULL);
+		} else {
+			$this->setIdequipo2($v->getIdequipo());
+		}
+
+		$this->aEquipoRelatedByIdequipo2 = $v;
+
+		// Add binding for other direction of this n:n relationship.
+		// If this object has already been added to the Equipo object, it will not be re-added.
+		if ($v !== null) {
+			$v->addPartidoRelatedByIdequipo2($this);
+		}
+
+		return $this;
+	}
+
+
+	/**
+	 * Get the associated Equipo object
+	 *
+	 * @param      PropelPDO Optional Connection object.
+	 * @return     Equipo The associated Equipo object.
+	 * @throws     PropelException
+	 */
+	public function getEquipoRelatedByIdequipo2(PropelPDO $con = null)
+	{
+		if ($this->aEquipoRelatedByIdequipo2 === null && ($this->idequipo2 !== null)) {
+			$this->aEquipoRelatedByIdequipo2 = EquipoQuery::create()->findPk($this->idequipo2, $con);
+			/* The following can be used additionally to
+				guarantee the related object contains a reference
+				to this object.  This level of coupling may, however, be
+				undesirable since it could result in an only partially populated collection
+				in the referenced object.
+				$this->aEquipoRelatedByIdequipo2->addPartidosRelatedByIdequipo2($this);
+			 */
+		}
+		return $this->aEquipoRelatedByIdequipo2;
 	}
 
 	/**
@@ -1191,8 +1358,8 @@ abstract class BasePartido extends BaseObject  implements Persistent
 	public function clear()
 	{
 		$this->idpartido = null;
-		$this->equipo1 = null;
-		$this->equipo2 = null;
+		$this->idequipo1 = null;
+		$this->idequipo2 = null;
 		$this->resultadoequipo1 = null;
 		$this->resultadoequipo2 = null;
 		$this->fechahora = null;
@@ -1229,6 +1396,8 @@ abstract class BasePartido extends BaseObject  implements Persistent
 			$this->collPronosticos->clearIterator();
 		}
 		$this->collPronosticos = null;
+		$this->aEquipoRelatedByIdequipo1 = null;
+		$this->aEquipoRelatedByIdequipo2 = null;
 	}
 
 	/**

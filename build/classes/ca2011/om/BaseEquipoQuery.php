@@ -28,6 +28,14 @@
  * @method     EquipoQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     EquipoQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     EquipoQuery leftJoinPartidoRelatedByIdequipo1($relationAlias = null) Adds a LEFT JOIN clause to the query using the PartidoRelatedByIdequipo1 relation
+ * @method     EquipoQuery rightJoinPartidoRelatedByIdequipo1($relationAlias = null) Adds a RIGHT JOIN clause to the query using the PartidoRelatedByIdequipo1 relation
+ * @method     EquipoQuery innerJoinPartidoRelatedByIdequipo1($relationAlias = null) Adds a INNER JOIN clause to the query using the PartidoRelatedByIdequipo1 relation
+ *
+ * @method     EquipoQuery leftJoinPartidoRelatedByIdequipo2($relationAlias = null) Adds a LEFT JOIN clause to the query using the PartidoRelatedByIdequipo2 relation
+ * @method     EquipoQuery rightJoinPartidoRelatedByIdequipo2($relationAlias = null) Adds a RIGHT JOIN clause to the query using the PartidoRelatedByIdequipo2 relation
+ * @method     EquipoQuery innerJoinPartidoRelatedByIdequipo2($relationAlias = null) Adds a INNER JOIN clause to the query using the PartidoRelatedByIdequipo2 relation
+ *
  * @method     Equipo findOne(PropelPDO $con = null) Return the first Equipo matching the query
  * @method     Equipo findOneOrCreate(PropelPDO $con = null) Return the first Equipo matching the query, or a new Equipo object populated from the query conditions when no match is found
  *
@@ -377,6 +385,152 @@ abstract class BaseEquipoQuery extends ModelCriteria
 			}
 		}
 		return $this->addUsingAlias(EquipoPeer::LINKBANDERA, $linkbandera, $comparison);
+	}
+
+	/**
+	 * Filter the query by a related Partido object
+	 *
+	 * @param     Partido $partido  the related object to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    EquipoQuery The current query, for fluid interface
+	 */
+	public function filterByPartidoRelatedByIdequipo1($partido, $comparison = null)
+	{
+		if ($partido instanceof Partido) {
+			return $this
+				->addUsingAlias(EquipoPeer::IDEQUIPO, $partido->getIdequipo1(), $comparison);
+		} elseif ($partido instanceof PropelCollection) {
+			return $this
+				->usePartidoRelatedByIdequipo1Query()
+					->filterByPrimaryKeys($partido->getPrimaryKeys())
+				->endUse();
+		} else {
+			throw new PropelException('filterByPartidoRelatedByIdequipo1() only accepts arguments of type Partido or PropelCollection');
+		}
+	}
+
+	/**
+	 * Adds a JOIN clause to the query using the PartidoRelatedByIdequipo1 relation
+	 * 
+	 * @param     string $relationAlias optional alias for the relation
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    EquipoQuery The current query, for fluid interface
+	 */
+	public function joinPartidoRelatedByIdequipo1($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		$tableMap = $this->getTableMap();
+		$relationMap = $tableMap->getRelation('PartidoRelatedByIdequipo1');
+		
+		// create a ModelJoin object for this join
+		$join = new ModelJoin();
+		$join->setJoinType($joinType);
+		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+		if ($previousJoin = $this->getPreviousJoin()) {
+			$join->setPreviousJoin($previousJoin);
+		}
+		
+		// add the ModelJoin to the current object
+		if($relationAlias) {
+			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+			$this->addJoinObject($join, $relationAlias);
+		} else {
+			$this->addJoinObject($join, 'PartidoRelatedByIdequipo1');
+		}
+		
+		return $this;
+	}
+
+	/**
+	 * Use the PartidoRelatedByIdequipo1 relation Partido object
+	 *
+	 * @see       useQuery()
+	 * 
+	 * @param     string $relationAlias optional alias for the relation,
+	 *                                   to be used as main alias in the secondary query
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    PartidoQuery A secondary query class using the current class as primary query
+	 */
+	public function usePartidoRelatedByIdequipo1Query($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		return $this
+			->joinPartidoRelatedByIdequipo1($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'PartidoRelatedByIdequipo1', 'PartidoQuery');
+	}
+
+	/**
+	 * Filter the query by a related Partido object
+	 *
+	 * @param     Partido $partido  the related object to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    EquipoQuery The current query, for fluid interface
+	 */
+	public function filterByPartidoRelatedByIdequipo2($partido, $comparison = null)
+	{
+		if ($partido instanceof Partido) {
+			return $this
+				->addUsingAlias(EquipoPeer::IDEQUIPO, $partido->getIdequipo2(), $comparison);
+		} elseif ($partido instanceof PropelCollection) {
+			return $this
+				->usePartidoRelatedByIdequipo2Query()
+					->filterByPrimaryKeys($partido->getPrimaryKeys())
+				->endUse();
+		} else {
+			throw new PropelException('filterByPartidoRelatedByIdequipo2() only accepts arguments of type Partido or PropelCollection');
+		}
+	}
+
+	/**
+	 * Adds a JOIN clause to the query using the PartidoRelatedByIdequipo2 relation
+	 * 
+	 * @param     string $relationAlias optional alias for the relation
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    EquipoQuery The current query, for fluid interface
+	 */
+	public function joinPartidoRelatedByIdequipo2($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		$tableMap = $this->getTableMap();
+		$relationMap = $tableMap->getRelation('PartidoRelatedByIdequipo2');
+		
+		// create a ModelJoin object for this join
+		$join = new ModelJoin();
+		$join->setJoinType($joinType);
+		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+		if ($previousJoin = $this->getPreviousJoin()) {
+			$join->setPreviousJoin($previousJoin);
+		}
+		
+		// add the ModelJoin to the current object
+		if($relationAlias) {
+			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+			$this->addJoinObject($join, $relationAlias);
+		} else {
+			$this->addJoinObject($join, 'PartidoRelatedByIdequipo2');
+		}
+		
+		return $this;
+	}
+
+	/**
+	 * Use the PartidoRelatedByIdequipo2 relation Partido object
+	 *
+	 * @see       useQuery()
+	 * 
+	 * @param     string $relationAlias optional alias for the relation,
+	 *                                   to be used as main alias in the secondary query
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    PartidoQuery A secondary query class using the current class as primary query
+	 */
+	public function usePartidoRelatedByIdequipo2Query($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		return $this
+			->joinPartidoRelatedByIdequipo2($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'PartidoRelatedByIdequipo2', 'PartidoQuery');
 	}
 
 	/**

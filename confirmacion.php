@@ -1,17 +1,32 @@
 <?php
+	require_once 'includes/init.php';
 	session_start();
-	$msg = "";
-	if(isset($_SESSION['error'])) {
-		switch($_SESSION['error']) {
-			case "BD":
-				$msg = "Error de conexión a la Base de Datos, intente más tarde...";
-				break;
-			case "DI":
-				$msg = "Datos de ingreso incorrectos, intente nuevamente...";
-				break;
+	$claveConfirma = $_REQUEST['cc'];
+	if(!isset($_REQUEST['op'])) {
+		$titulo = "Confirmación Exitosa";
+		$usuario_obj = UsuarioQuery::create()->filterByClaveconfirma($claveConfirma)->filterByPagook('N')->findOne();
+		if($usuario_obj) {
+			$usuario_obj->setPagook('C');
+			$usuario_obj->save();
+			$msg = <<<ram
+Confirmacion realizada con &eacute;xito, haga clic <a href="login.php">aqui</a> para ir a la página de ingreso.
+ram;
+		}
+		else {
+			$titulo = "Error en la confirmación";
+			$msg = <<<ram
+No fue posible confirmar su registro, si realizó la copia del enlace y lo pego en la barra de dirección del explorador de Internet, asegurese de que esté completo.<br><br>De persistir el error haga clic <a href="confirmacion.php?op=2&cc=$claveConfirma">aqui</a> para enviar un correo al administrador.
+ram;
 		}
 	}
-	session_destroy();
+	else {
+		$titulo = "Administrador Notificado";
+		Correo::envioCorreoAdministradorConfirmacion($claveConfirma);
+		$msg = <<<ram
+El correo de notificación al administrador del sistema ha sido enviado, el se comunicará con Ud. a la brevedad posible.
+ram;
+	}
+	Propel::close();
 ?>
 <html>
 <head>
@@ -25,28 +40,15 @@
 	font-size: 14px;
 	font-weight: bold;
 }
-.style2 {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 14px;
-}
-.style3 {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 10px;
-	font-weight: bold;
-}
-.style4 {
+.style7 {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 12px;
 	font-weight: bold;
-	color: #FF0000;
 }
 -->
 </style></head>
-<body bgcolor="#ffffff" onload="forma.correo.focus();">
+<body bgcolor="#ffffff" onload="forma.nombre.focus();">
   <p>&nbsp;</p>
-  <p>&nbsp;</p>
-  <p>&nbsp;</p>
-<form name="forma" method="post" action="login_accion.php">
   <table width="500" border="0" align="center" cellpadding="0" cellspacing="0">
     <!-- fwtable fwsrc="login.png" fwbase="logo.gif" fwstyle="Dreamweaver" fwdocid = "2086942953" fwnested="0" -->
     <tr>
@@ -66,7 +68,7 @@
       <td><img src="icons/spacer.gif" width="1" height="6" border="0" alt=""></td>
     </tr>
     <tr>
-      <td colspan="5" bgcolor="#00C0EF"><span class="style1">Control de Acceso </span></td>
+      <td colspan="5" bgcolor="#00C0EF"><span class="style1"><?=$titulo?></span></td>
       <td><img src="icons/spacer.gif" width="1" height="19" border="0" alt=""></td>
     </tr>
     <tr>
@@ -74,41 +76,20 @@
       <td><img src="icons/spacer.gif" width="1" height="8" border="0" alt=""></td>
     </tr>
     <tr>
-      <td rowspan="3"><img name="logo_r4_c1" src="icons/logo_r4_c1.gif" width="26" height="238" border="0" alt=""></td>
+      <td rowspan="3" background="icons/logo_r2_c1.gif">&nbsp;</td>
       <td>&nbsp;</td>
       <td><img name="logo_r4_c3" src="icons/logo_r4_c3.gif" width="193" height="92" border="0" alt=""></td>
       <td colspan="3">&nbsp;</td>
-      <td rowspan="3"><img name="logo_r4_c7" src="icons/logo_r4_c7.gif" width="27" height="238" border="0" alt=""></td>
+      <td rowspan="3" background="icons/logo_r4_c7.gif">&nbsp;</td>
       <td><img src="icons/spacer.gif" width="1" height="92" border="0" alt=""></td>
     </tr>
     <tr>
-      <td colspan="5"><table width="100%"  border="0">
-<?php
-	if($msg != "") {
-?>
-          <tr>
-            <td colspan="2"><div align="center"><span class="style4"><?=$msg?></span></div></td>
-          </tr>
-<?php
-	}
-?>
-          <tr>
-            <td><div align="right"><strong><span class="style2">Correo Electr&oacute;nico </span></strong></div></td>
-            <td><input name="correo" type="text" id="correo" size="35"></td>
-          </tr>
-          <tr>
-            <td><div align="right"><strong><span class="style2">Clave</span></strong></div></td>
-            <td><input name="clave" type="password" id="clave"></td>
-          </tr>
-      </table></td>
+  <td colspan="5"><div align="center"><span class="style7"><?=$msg?></span></div></td>
       <td><img src="icons/spacer.gif" width="1" height="114" border="0" alt=""></td>
     </tr>
     <tr>
-      <td colspan="3"><span class="style3">* <a href="registro_nuevo.php">Registrarme como nuevo participante</a><br>
-        * <a href="registro_nuevo_grupo.php">Ya soy usuario y deseo registrarme en otro grupo?</a>
-      </a></span></td>
-      <td><input type="image" src="icons/logo_r6_c5.gif" width="87" height="32" border="0" alt=""></td>
-      <td>&nbsp;</td>
+      <td colspan="5"><div align="center">
+      </div></td>
       <td><img src="icons/spacer.gif" width="1" height="32" border="0" alt=""></td>
     </tr>
     <tr>
@@ -118,6 +99,5 @@
       <td><img src="icons/spacer.gif" width="1" height="29" border="0" alt=""></td>
     </tr>
   </table>
-</form>
 </body>
 </html>
