@@ -37,11 +37,11 @@ abstract class BasePartidoPeer {
 	/** the column name for the IDPARTIDO field */
 	const IDPARTIDO = 'pollaca2011_sch.partido.IDPARTIDO';
 
-	/** the column name for the EQUIPO1 field */
-	const EQUIPO1 = 'pollaca2011_sch.partido.EQUIPO1';
+	/** the column name for the IDEQUIPO1 field */
+	const IDEQUIPO1 = 'pollaca2011_sch.partido.IDEQUIPO1';
 
-	/** the column name for the EQUIPO2 field */
-	const EQUIPO2 = 'pollaca2011_sch.partido.EQUIPO2';
+	/** the column name for the IDEQUIPO2 field */
+	const IDEQUIPO2 = 'pollaca2011_sch.partido.IDEQUIPO2';
 
 	/** the column name for the RESULTADOEQUIPO1 field */
 	const RESULTADOEQUIPO1 = 'pollaca2011_sch.partido.RESULTADOEQUIPO1';
@@ -77,11 +77,11 @@ abstract class BasePartidoPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	protected static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Idpartido', 'Equipo1', 'Equipo2', 'Resultadoequipo1', 'Resultadoequipo2', 'Fechahora', 'Sede', 'Jugado', ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('idpartido', 'equipo1', 'equipo2', 'resultadoequipo1', 'resultadoequipo2', 'fechahora', 'sede', 'jugado', ),
-		BasePeer::TYPE_COLNAME => array (self::IDPARTIDO, self::EQUIPO1, self::EQUIPO2, self::RESULTADOEQUIPO1, self::RESULTADOEQUIPO2, self::FECHAHORA, self::SEDE, self::JUGADO, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('IDPARTIDO', 'EQUIPO1', 'EQUIPO2', 'RESULTADOEQUIPO1', 'RESULTADOEQUIPO2', 'FECHAHORA', 'SEDE', 'JUGADO', ),
-		BasePeer::TYPE_FIELDNAME => array ('idpartido', 'equipo1', 'equipo2', 'resultadoequipo1', 'resultadoequipo2', 'fechahora', 'sede', 'jugado', ),
+		BasePeer::TYPE_PHPNAME => array ('Idpartido', 'Idequipo1', 'Idequipo2', 'Resultadoequipo1', 'Resultadoequipo2', 'Fechahora', 'Sede', 'Jugado', ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('idpartido', 'idequipo1', 'idequipo2', 'resultadoequipo1', 'resultadoequipo2', 'fechahora', 'sede', 'jugado', ),
+		BasePeer::TYPE_COLNAME => array (self::IDPARTIDO, self::IDEQUIPO1, self::IDEQUIPO2, self::RESULTADOEQUIPO1, self::RESULTADOEQUIPO2, self::FECHAHORA, self::SEDE, self::JUGADO, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('IDPARTIDO', 'IDEQUIPO1', 'IDEQUIPO2', 'RESULTADOEQUIPO1', 'RESULTADOEQUIPO2', 'FECHAHORA', 'SEDE', 'JUGADO', ),
+		BasePeer::TYPE_FIELDNAME => array ('idpartido', 'idequipo1', 'idequipo2', 'resultadoequipo1', 'resultadoequipo2', 'fechahora', 'sede', 'jugado', ),
 		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
 	);
 
@@ -92,11 +92,11 @@ abstract class BasePartidoPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	protected static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Idpartido' => 0, 'Equipo1' => 1, 'Equipo2' => 2, 'Resultadoequipo1' => 3, 'Resultadoequipo2' => 4, 'Fechahora' => 5, 'Sede' => 6, 'Jugado' => 7, ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('idpartido' => 0, 'equipo1' => 1, 'equipo2' => 2, 'resultadoequipo1' => 3, 'resultadoequipo2' => 4, 'fechahora' => 5, 'sede' => 6, 'jugado' => 7, ),
-		BasePeer::TYPE_COLNAME => array (self::IDPARTIDO => 0, self::EQUIPO1 => 1, self::EQUIPO2 => 2, self::RESULTADOEQUIPO1 => 3, self::RESULTADOEQUIPO2 => 4, self::FECHAHORA => 5, self::SEDE => 6, self::JUGADO => 7, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('IDPARTIDO' => 0, 'EQUIPO1' => 1, 'EQUIPO2' => 2, 'RESULTADOEQUIPO1' => 3, 'RESULTADOEQUIPO2' => 4, 'FECHAHORA' => 5, 'SEDE' => 6, 'JUGADO' => 7, ),
-		BasePeer::TYPE_FIELDNAME => array ('idpartido' => 0, 'equipo1' => 1, 'equipo2' => 2, 'resultadoequipo1' => 3, 'resultadoequipo2' => 4, 'fechahora' => 5, 'sede' => 6, 'jugado' => 7, ),
+		BasePeer::TYPE_PHPNAME => array ('Idpartido' => 0, 'Idequipo1' => 1, 'Idequipo2' => 2, 'Resultadoequipo1' => 3, 'Resultadoequipo2' => 4, 'Fechahora' => 5, 'Sede' => 6, 'Jugado' => 7, ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('idpartido' => 0, 'idequipo1' => 1, 'idequipo2' => 2, 'resultadoequipo1' => 3, 'resultadoequipo2' => 4, 'fechahora' => 5, 'sede' => 6, 'jugado' => 7, ),
+		BasePeer::TYPE_COLNAME => array (self::IDPARTIDO => 0, self::IDEQUIPO1 => 1, self::IDEQUIPO2 => 2, self::RESULTADOEQUIPO1 => 3, self::RESULTADOEQUIPO2 => 4, self::FECHAHORA => 5, self::SEDE => 6, self::JUGADO => 7, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('IDPARTIDO' => 0, 'IDEQUIPO1' => 1, 'IDEQUIPO2' => 2, 'RESULTADOEQUIPO1' => 3, 'RESULTADOEQUIPO2' => 4, 'FECHAHORA' => 5, 'SEDE' => 6, 'JUGADO' => 7, ),
+		BasePeer::TYPE_FIELDNAME => array ('idpartido' => 0, 'idequipo1' => 1, 'idequipo2' => 2, 'resultadoequipo1' => 3, 'resultadoequipo2' => 4, 'fechahora' => 5, 'sede' => 6, 'jugado' => 7, ),
 		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
 	);
 
@@ -170,8 +170,8 @@ abstract class BasePartidoPeer {
 	{
 		if (null === $alias) {
 			$criteria->addSelectColumn(PartidoPeer::IDPARTIDO);
-			$criteria->addSelectColumn(PartidoPeer::EQUIPO1);
-			$criteria->addSelectColumn(PartidoPeer::EQUIPO2);
+			$criteria->addSelectColumn(PartidoPeer::IDEQUIPO1);
+			$criteria->addSelectColumn(PartidoPeer::IDEQUIPO2);
 			$criteria->addSelectColumn(PartidoPeer::RESULTADOEQUIPO1);
 			$criteria->addSelectColumn(PartidoPeer::RESULTADOEQUIPO2);
 			$criteria->addSelectColumn(PartidoPeer::FECHAHORA);
@@ -179,8 +179,8 @@ abstract class BasePartidoPeer {
 			$criteria->addSelectColumn(PartidoPeer::JUGADO);
 		} else {
 			$criteria->addSelectColumn($alias . '.IDPARTIDO');
-			$criteria->addSelectColumn($alias . '.EQUIPO1');
-			$criteria->addSelectColumn($alias . '.EQUIPO2');
+			$criteria->addSelectColumn($alias . '.IDEQUIPO1');
+			$criteria->addSelectColumn($alias . '.IDEQUIPO2');
 			$criteria->addSelectColumn($alias . '.RESULTADOEQUIPO1');
 			$criteria->addSelectColumn($alias . '.RESULTADOEQUIPO2');
 			$criteria->addSelectColumn($alias . '.FECHAHORA');
@@ -470,6 +470,575 @@ abstract class BasePartidoPeer {
 		}
 		return array($obj, $col);
 	}
+
+	/**
+	 * Returns the number of rows matching criteria, joining the related EquipoRelatedByIdequipo1 table
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
+	 * @param      PropelPDO $con
+	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+	 * @return     int Number of matching rows.
+	 */
+	public static function doCountJoinEquipoRelatedByIdequipo1(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// We need to set the primary table name, since in the case that there are no WHERE columns
+		// it will be impossible for the BasePeer::createSelectSql() method to determine which
+		// tables go into the FROM clause.
+		$criteria->setPrimaryTableName(PartidoPeer::TABLE_NAME);
+
+		if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->setDistinct();
+		}
+
+		if (!$criteria->hasSelectClause()) {
+			PartidoPeer::addSelectColumns($criteria);
+		}
+		
+		$criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
+		
+		// Set the correct dbName
+		$criteria->setDbName(self::DATABASE_NAME);
+
+		if ($con === null) {
+			$con = Propel::getConnection(PartidoPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+		}
+
+		$criteria->addJoin(PartidoPeer::IDEQUIPO1, EquipoPeer::IDEQUIPO, $join_behavior);
+
+		$stmt = BasePeer::doCount($criteria, $con);
+
+		if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+			$count = (int) $row[0];
+		} else {
+			$count = 0; // no rows returned; we infer that means 0 matches.
+		}
+		$stmt->closeCursor();
+		return $count;
+	}
+
+
+	/**
+	 * Returns the number of rows matching criteria, joining the related EquipoRelatedByIdequipo2 table
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
+	 * @param      PropelPDO $con
+	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+	 * @return     int Number of matching rows.
+	 */
+	public static function doCountJoinEquipoRelatedByIdequipo2(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// We need to set the primary table name, since in the case that there are no WHERE columns
+		// it will be impossible for the BasePeer::createSelectSql() method to determine which
+		// tables go into the FROM clause.
+		$criteria->setPrimaryTableName(PartidoPeer::TABLE_NAME);
+
+		if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->setDistinct();
+		}
+
+		if (!$criteria->hasSelectClause()) {
+			PartidoPeer::addSelectColumns($criteria);
+		}
+		
+		$criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
+		
+		// Set the correct dbName
+		$criteria->setDbName(self::DATABASE_NAME);
+
+		if ($con === null) {
+			$con = Propel::getConnection(PartidoPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+		}
+
+		$criteria->addJoin(PartidoPeer::IDEQUIPO2, EquipoPeer::IDEQUIPO, $join_behavior);
+
+		$stmt = BasePeer::doCount($criteria, $con);
+
+		if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+			$count = (int) $row[0];
+		} else {
+			$count = 0; // no rows returned; we infer that means 0 matches.
+		}
+		$stmt->closeCursor();
+		return $count;
+	}
+
+
+	/**
+	 * Selects a collection of Partido objects pre-filled with their Equipo objects.
+	 * @param      Criteria  $criteria
+	 * @param      PropelPDO $con
+	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+	 * @return     array Array of Partido objects.
+	 * @throws     PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinEquipoRelatedByIdequipo1(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		$criteria = clone $criteria;
+
+		// Set the correct dbName if it has not been overridden
+		if ($criteria->getDbName() == Propel::getDefaultDB()) {
+			$criteria->setDbName(self::DATABASE_NAME);
+		}
+
+		PartidoPeer::addSelectColumns($criteria);
+		$startcol = PartidoPeer::NUM_HYDRATE_COLUMNS;
+		EquipoPeer::addSelectColumns($criteria);
+
+		$criteria->addJoin(PartidoPeer::IDEQUIPO1, EquipoPeer::IDEQUIPO, $join_behavior);
+
+		$stmt = BasePeer::doSelect($criteria, $con);
+		$results = array();
+
+		while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+			$key1 = PartidoPeer::getPrimaryKeyHashFromRow($row, 0);
+			if (null !== ($obj1 = PartidoPeer::getInstanceFromPool($key1))) {
+				// We no longer rehydrate the object, since this can cause data loss.
+				// See http://www.propelorm.org/ticket/509
+				// $obj1->hydrate($row, 0, true); // rehydrate
+			} else {
+
+				$cls = PartidoPeer::getOMClass(false);
+
+				$obj1 = new $cls();
+				$obj1->hydrate($row);
+				PartidoPeer::addInstanceToPool($obj1, $key1);
+			} // if $obj1 already loaded
+
+			$key2 = EquipoPeer::getPrimaryKeyHashFromRow($row, $startcol);
+			if ($key2 !== null) {
+				$obj2 = EquipoPeer::getInstanceFromPool($key2);
+				if (!$obj2) {
+
+					$cls = EquipoPeer::getOMClass(false);
+
+					$obj2 = new $cls();
+					$obj2->hydrate($row, $startcol);
+					EquipoPeer::addInstanceToPool($obj2, $key2);
+				} // if obj2 already loaded
+
+				// Add the $obj1 (Partido) to $obj2 (Equipo)
+				$obj2->addPartidoRelatedByIdequipo1($obj1);
+
+			} // if joined row was not null
+
+			$results[] = $obj1;
+		}
+		$stmt->closeCursor();
+		return $results;
+	}
+
+
+	/**
+	 * Selects a collection of Partido objects pre-filled with their Equipo objects.
+	 * @param      Criteria  $criteria
+	 * @param      PropelPDO $con
+	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+	 * @return     array Array of Partido objects.
+	 * @throws     PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinEquipoRelatedByIdequipo2(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		$criteria = clone $criteria;
+
+		// Set the correct dbName if it has not been overridden
+		if ($criteria->getDbName() == Propel::getDefaultDB()) {
+			$criteria->setDbName(self::DATABASE_NAME);
+		}
+
+		PartidoPeer::addSelectColumns($criteria);
+		$startcol = PartidoPeer::NUM_HYDRATE_COLUMNS;
+		EquipoPeer::addSelectColumns($criteria);
+
+		$criteria->addJoin(PartidoPeer::IDEQUIPO2, EquipoPeer::IDEQUIPO, $join_behavior);
+
+		$stmt = BasePeer::doSelect($criteria, $con);
+		$results = array();
+
+		while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+			$key1 = PartidoPeer::getPrimaryKeyHashFromRow($row, 0);
+			if (null !== ($obj1 = PartidoPeer::getInstanceFromPool($key1))) {
+				// We no longer rehydrate the object, since this can cause data loss.
+				// See http://www.propelorm.org/ticket/509
+				// $obj1->hydrate($row, 0, true); // rehydrate
+			} else {
+
+				$cls = PartidoPeer::getOMClass(false);
+
+				$obj1 = new $cls();
+				$obj1->hydrate($row);
+				PartidoPeer::addInstanceToPool($obj1, $key1);
+			} // if $obj1 already loaded
+
+			$key2 = EquipoPeer::getPrimaryKeyHashFromRow($row, $startcol);
+			if ($key2 !== null) {
+				$obj2 = EquipoPeer::getInstanceFromPool($key2);
+				if (!$obj2) {
+
+					$cls = EquipoPeer::getOMClass(false);
+
+					$obj2 = new $cls();
+					$obj2->hydrate($row, $startcol);
+					EquipoPeer::addInstanceToPool($obj2, $key2);
+				} // if obj2 already loaded
+
+				// Add the $obj1 (Partido) to $obj2 (Equipo)
+				$obj2->addPartidoRelatedByIdequipo2($obj1);
+
+			} // if joined row was not null
+
+			$results[] = $obj1;
+		}
+		$stmt->closeCursor();
+		return $results;
+	}
+
+
+	/**
+	 * Returns the number of rows matching criteria, joining all related tables
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
+	 * @param      PropelPDO $con
+	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+	 * @return     int Number of matching rows.
+	 */
+	public static function doCountJoinAll(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// We need to set the primary table name, since in the case that there are no WHERE columns
+		// it will be impossible for the BasePeer::createSelectSql() method to determine which
+		// tables go into the FROM clause.
+		$criteria->setPrimaryTableName(PartidoPeer::TABLE_NAME);
+
+		if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->setDistinct();
+		}
+
+		if (!$criteria->hasSelectClause()) {
+			PartidoPeer::addSelectColumns($criteria);
+		}
+		
+		$criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
+		
+		// Set the correct dbName
+		$criteria->setDbName(self::DATABASE_NAME);
+
+		if ($con === null) {
+			$con = Propel::getConnection(PartidoPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+		}
+
+		$criteria->addJoin(PartidoPeer::IDEQUIPO1, EquipoPeer::IDEQUIPO, $join_behavior);
+
+		$criteria->addJoin(PartidoPeer::IDEQUIPO2, EquipoPeer::IDEQUIPO, $join_behavior);
+
+		$stmt = BasePeer::doCount($criteria, $con);
+
+		if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+			$count = (int) $row[0];
+		} else {
+			$count = 0; // no rows returned; we infer that means 0 matches.
+		}
+		$stmt->closeCursor();
+		return $count;
+	}
+
+	/**
+	 * Selects a collection of Partido objects pre-filled with all related objects.
+	 *
+	 * @param      Criteria  $criteria
+	 * @param      PropelPDO $con
+	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+	 * @return     array Array of Partido objects.
+	 * @throws     PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinAll(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		$criteria = clone $criteria;
+
+		// Set the correct dbName if it has not been overridden
+		if ($criteria->getDbName() == Propel::getDefaultDB()) {
+			$criteria->setDbName(self::DATABASE_NAME);
+		}
+
+		PartidoPeer::addSelectColumns($criteria);
+		$startcol2 = PartidoPeer::NUM_HYDRATE_COLUMNS;
+
+		EquipoPeer::addSelectColumns($criteria);
+		$startcol3 = $startcol2 + EquipoPeer::NUM_HYDRATE_COLUMNS;
+
+		EquipoPeer::addSelectColumns($criteria);
+		$startcol4 = $startcol3 + EquipoPeer::NUM_HYDRATE_COLUMNS;
+
+		$criteria->addJoin(PartidoPeer::IDEQUIPO1, EquipoPeer::IDEQUIPO, $join_behavior);
+
+		$criteria->addJoin(PartidoPeer::IDEQUIPO2, EquipoPeer::IDEQUIPO, $join_behavior);
+
+		$stmt = BasePeer::doSelect($criteria, $con);
+		$results = array();
+
+		while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+			$key1 = PartidoPeer::getPrimaryKeyHashFromRow($row, 0);
+			if (null !== ($obj1 = PartidoPeer::getInstanceFromPool($key1))) {
+				// We no longer rehydrate the object, since this can cause data loss.
+				// See http://www.propelorm.org/ticket/509
+				// $obj1->hydrate($row, 0, true); // rehydrate
+			} else {
+				$cls = PartidoPeer::getOMClass(false);
+
+				$obj1 = new $cls();
+				$obj1->hydrate($row);
+				PartidoPeer::addInstanceToPool($obj1, $key1);
+			} // if obj1 already loaded
+
+			// Add objects for joined Equipo rows
+
+			$key2 = EquipoPeer::getPrimaryKeyHashFromRow($row, $startcol2);
+			if ($key2 !== null) {
+				$obj2 = EquipoPeer::getInstanceFromPool($key2);
+				if (!$obj2) {
+
+					$cls = EquipoPeer::getOMClass(false);
+
+					$obj2 = new $cls();
+					$obj2->hydrate($row, $startcol2);
+					EquipoPeer::addInstanceToPool($obj2, $key2);
+				} // if obj2 loaded
+
+				// Add the $obj1 (Partido) to the collection in $obj2 (Equipo)
+				$obj2->addPartidoRelatedByIdequipo1($obj1);
+			} // if joined row not null
+
+			// Add objects for joined Equipo rows
+
+			$key3 = EquipoPeer::getPrimaryKeyHashFromRow($row, $startcol3);
+			if ($key3 !== null) {
+				$obj3 = EquipoPeer::getInstanceFromPool($key3);
+				if (!$obj3) {
+
+					$cls = EquipoPeer::getOMClass(false);
+
+					$obj3 = new $cls();
+					$obj3->hydrate($row, $startcol3);
+					EquipoPeer::addInstanceToPool($obj3, $key3);
+				} // if obj3 loaded
+
+				// Add the $obj1 (Partido) to the collection in $obj3 (Equipo)
+				$obj3->addPartidoRelatedByIdequipo2($obj1);
+			} // if joined row not null
+
+			$results[] = $obj1;
+		}
+		$stmt->closeCursor();
+		return $results;
+	}
+
+
+	/**
+	 * Returns the number of rows matching criteria, joining the related EquipoRelatedByIdequipo1 table
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
+	 * @param      PropelPDO $con
+	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+	 * @return     int Number of matching rows.
+	 */
+	public static function doCountJoinAllExceptEquipoRelatedByIdequipo1(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// We need to set the primary table name, since in the case that there are no WHERE columns
+		// it will be impossible for the BasePeer::createSelectSql() method to determine which
+		// tables go into the FROM clause.
+		$criteria->setPrimaryTableName(PartidoPeer::TABLE_NAME);
+		
+		if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->setDistinct();
+		}
+
+		if (!$criteria->hasSelectClause()) {
+			PartidoPeer::addSelectColumns($criteria);
+		}
+		
+		$criteria->clearOrderByColumns(); // ORDER BY should not affect count
+		
+		// Set the correct dbName
+		$criteria->setDbName(self::DATABASE_NAME);
+
+		if ($con === null) {
+			$con = Propel::getConnection(PartidoPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+		}
+	
+		$stmt = BasePeer::doCount($criteria, $con);
+
+		if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+			$count = (int) $row[0];
+		} else {
+			$count = 0; // no rows returned; we infer that means 0 matches.
+		}
+		$stmt->closeCursor();
+		return $count;
+	}
+
+
+	/**
+	 * Returns the number of rows matching criteria, joining the related EquipoRelatedByIdequipo2 table
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
+	 * @param      PropelPDO $con
+	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+	 * @return     int Number of matching rows.
+	 */
+	public static function doCountJoinAllExceptEquipoRelatedByIdequipo2(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// We need to set the primary table name, since in the case that there are no WHERE columns
+		// it will be impossible for the BasePeer::createSelectSql() method to determine which
+		// tables go into the FROM clause.
+		$criteria->setPrimaryTableName(PartidoPeer::TABLE_NAME);
+		
+		if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->setDistinct();
+		}
+
+		if (!$criteria->hasSelectClause()) {
+			PartidoPeer::addSelectColumns($criteria);
+		}
+		
+		$criteria->clearOrderByColumns(); // ORDER BY should not affect count
+		
+		// Set the correct dbName
+		$criteria->setDbName(self::DATABASE_NAME);
+
+		if ($con === null) {
+			$con = Propel::getConnection(PartidoPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+		}
+	
+		$stmt = BasePeer::doCount($criteria, $con);
+
+		if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+			$count = (int) $row[0];
+		} else {
+			$count = 0; // no rows returned; we infer that means 0 matches.
+		}
+		$stmt->closeCursor();
+		return $count;
+	}
+
+
+	/**
+	 * Selects a collection of Partido objects pre-filled with all related objects except EquipoRelatedByIdequipo1.
+	 *
+	 * @param      Criteria  $criteria
+	 * @param      PropelPDO $con
+	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+	 * @return     array Array of Partido objects.
+	 * @throws     PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinAllExceptEquipoRelatedByIdequipo1(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		$criteria = clone $criteria;
+
+		// Set the correct dbName if it has not been overridden
+		// $criteria->getDbName() will return the same object if not set to another value
+		// so == check is okay and faster
+		if ($criteria->getDbName() == Propel::getDefaultDB()) {
+			$criteria->setDbName(self::DATABASE_NAME);
+		}
+
+		PartidoPeer::addSelectColumns($criteria);
+		$startcol2 = PartidoPeer::NUM_HYDRATE_COLUMNS;
+
+
+		$stmt = BasePeer::doSelect($criteria, $con);
+		$results = array();
+
+		while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+			$key1 = PartidoPeer::getPrimaryKeyHashFromRow($row, 0);
+			if (null !== ($obj1 = PartidoPeer::getInstanceFromPool($key1))) {
+				// We no longer rehydrate the object, since this can cause data loss.
+				// See http://www.propelorm.org/ticket/509
+				// $obj1->hydrate($row, 0, true); // rehydrate
+			} else {
+				$cls = PartidoPeer::getOMClass(false);
+
+				$obj1 = new $cls();
+				$obj1->hydrate($row);
+				PartidoPeer::addInstanceToPool($obj1, $key1);
+			} // if obj1 already loaded
+
+			$results[] = $obj1;
+		}
+		$stmt->closeCursor();
+		return $results;
+	}
+
+
+	/**
+	 * Selects a collection of Partido objects pre-filled with all related objects except EquipoRelatedByIdequipo2.
+	 *
+	 * @param      Criteria  $criteria
+	 * @param      PropelPDO $con
+	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+	 * @return     array Array of Partido objects.
+	 * @throws     PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinAllExceptEquipoRelatedByIdequipo2(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		$criteria = clone $criteria;
+
+		// Set the correct dbName if it has not been overridden
+		// $criteria->getDbName() will return the same object if not set to another value
+		// so == check is okay and faster
+		if ($criteria->getDbName() == Propel::getDefaultDB()) {
+			$criteria->setDbName(self::DATABASE_NAME);
+		}
+
+		PartidoPeer::addSelectColumns($criteria);
+		$startcol2 = PartidoPeer::NUM_HYDRATE_COLUMNS;
+
+
+		$stmt = BasePeer::doSelect($criteria, $con);
+		$results = array();
+
+		while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+			$key1 = PartidoPeer::getPrimaryKeyHashFromRow($row, 0);
+			if (null !== ($obj1 = PartidoPeer::getInstanceFromPool($key1))) {
+				// We no longer rehydrate the object, since this can cause data loss.
+				// See http://www.propelorm.org/ticket/509
+				// $obj1->hydrate($row, 0, true); // rehydrate
+			} else {
+				$cls = PartidoPeer::getOMClass(false);
+
+				$obj1 = new $cls();
+				$obj1->hydrate($row);
+				PartidoPeer::addInstanceToPool($obj1, $key1);
+			} // if obj1 already loaded
+
+			$results[] = $obj1;
+		}
+		$stmt->closeCursor();
+		return $results;
+	}
+
 	/**
 	 * Returns the TableMap related to this peer.
 	 * This method is not needed for general use but a specific application could have a need.

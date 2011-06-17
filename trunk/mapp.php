@@ -1,8 +1,17 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?php
+	require_once 'includes/init.php';
+	require_once 'includes/ac.php';
+	Header('Cache-Control: no-cache');
+  	Header('Pragma: no-cache');
+	$grupo_sesion = $_SESSION['grupo_sesion'];
+	$msgPago = "";
+	if($usuario_sesion->getPagook() != 'P')
+		$msgPago = "REGISTRO DE PRONOSTICOS INACTIVO, FALTA CANCELAR LA CUOTA DE INSCRIPCION!!";
+?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>DHTMLX Tutorial. Contacts</title>
+    <title>.:. Copa Am&eacute;rica Argentina 2011 .:.</title>
     <!-- dhtmlx.js contains all necessary dhtmlx library javascript code -->
     <script src="codebase/dhtmlx.js" type="text/javascript"></script>
     <!-- dhtmlx.css contains styles definitions for all included components -->
@@ -20,12 +29,29 @@
     </style>
  
     <script type="text/javascript">
+		function not_empty(value, id, ind) {
+			if (value == "")
+				return "Existen pronósticos vacios!!... No es posible guardar pronósticos en blanco...";
+			return true;
+		}
+		function muestraMensaje_i() {
+			alert('Datos Guardados!!!');
+			pronosticosGrid.clearAndLoad("midware.php?a=1");
+		}
+		function muestraMensaje_u() {
+			alert('Datos Guardados!!!');
+			pronosticosGrid.clearAndLoad("midware.php?a=1");
+		}
+		function no_update(nodo) {
+			alert(nodo.firstChild.data);
+		}
         var layout,menu,toolbar,contactsGrid,contactForm;
 		dhtmlx.image_path = "codebase/imgs/";
 		dhtmlxEvent(window,"load",function(){
 			//layout
 			layoutp = new dhtmlXLayoutObject(document.body,"1C");
-			layoutp.cells("a").setText("Copa América Argentina - 2011");
+			layoutp.cells("a").setText(".::. Polla Copa América Argentina - 2011 .::. (<?=$usuario_sesion->getNombre()?> - Grupo <?=$grupo_sesion->getNombre()?>) <?=$msgPago?>");
+			layoutp.cells("a").attachURL("splash.htm");
 			toolbar = layoutp.cells("a").attachToolbar();
 			toolbar.setIconsPath("icons/");
 			toolbar.loadXML("xml/toolbar.xml");
@@ -33,21 +59,35 @@
 				layoutp.cells("a").progressOn();
 				if(id=="pronosticos"){
 					layout = new dhtmlXLayoutObject(layoutp.cells("a"),"2U");
+					layout.cells("a").setWidth(770);
 					layout.cells("a").hideHeader();
 					layout.cells("b").hideHeader();
 					layout.cells("a").fixSize(true,true);
 					toolbarP = layout.cells("a").attachToolbar();
 					toolbarP.setIconsPath("icons/");
 					toolbarP.loadXML("xml/toolbarP.xml");
-					pronosticosTab = layout.cells("a").attachTabbar();
-					pronosticosTab.addTab("g1","GRUPO A","100px");
-					pronosticosTab.addTab("g2","GRUPO B","100px");
-					pronosticosTab.addTab("g3","GRUPO C","100px");
-					pronosticosTab.addTab("g4","CUARTOS DE FINAL","100px");
-					pronosticosTab.addTab("g5","SEMIFINAL","100px");
-					pronosticosTab.addTab("g6","FINAL","100px");
-					pronosticosTab.setTabActive("g1");
+					pronosticosGrid = layout.cells("a").attachGrid();
+					pronosticosGrid.enableTooltips("false,false,false,false,false,false,false,false,false,false,false");
+					pronosticosGrid.loadXML("midware.php?a=1");
+					dp = new dataProcessor("midware.php?a=2");
+					dp.setTransactionMode("POST", true);
+					dp.setUpdateMode("off");
+					dp.setVerificator(2, not_empty);
+					dp.setVerificator(3, not_empty);
+					dp.attachEvent("onValidatationError", function(id, messages) {
+						alert(messages.join("\n"));
+						return true;
+					});
+					dp.defineAction("act_ok",muestraMensaje_i);
+					dp.defineAction("act_ok_1",muestraMensaje_u);
+					dp.defineAction("no_update",no_update);
+					dp.init(pronosticosGrid);
 					layoutp.cells("a").showHeader();
+					toolbarP.attachEvent("onclick",function(id){
+						if(id=="guardar") {
+							dp.sendData();
+						}
+					});
 					//pronosticosTab.init();
 					/*pronosticosGrid = layout.cells("a").attachGrid();
 						//contactGrid.setImagePath("./codebase/imgs/");
@@ -59,6 +99,8 @@
 					pronosticosGrid.setColSorting("str,str,str,str,str,str,str");
 					pronosticosGrid.init();*/
 				}
+				if(id=="salir")
+					window.location = "http://localhost/ca2011/login.php";
 				layoutp.cells("a").progressOff();
 			});
 			
@@ -158,3 +200,6 @@
 <body>
 </body>
 </html>
+<?php
+	Propel::close();
+?>

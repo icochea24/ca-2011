@@ -39,8 +39,8 @@ class PartidoTableMap extends TableMap {
 		$this->setPrimaryKeyMethodInfo('pollaca2011_sch.sq_partido');
 		// columns
 		$this->addPrimaryKey('IDPARTIDO', 'Idpartido', 'INTEGER', true, null, null);
-		$this->addColumn('EQUIPO1', 'Equipo1', 'INTEGER', true, null, null);
-		$this->addColumn('EQUIPO2', 'Equipo2', 'INTEGER', true, null, null);
+		$this->addForeignKey('IDEQUIPO1', 'Idequipo1', 'INTEGER', 'pollaca2011_sch.equipo', 'IDEQUIPO', true, null, null);
+		$this->addForeignKey('IDEQUIPO2', 'Idequipo2', 'INTEGER', 'pollaca2011_sch.equipo', 'IDEQUIPO', true, null, null);
 		$this->addColumn('RESULTADOEQUIPO1', 'Resultadoequipo1', 'INTEGER', false, null, null);
 		$this->addColumn('RESULTADOEQUIPO2', 'Resultadoequipo2', 'INTEGER', false, null, null);
 		$this->addColumn('FECHAHORA', 'Fechahora', 'TIMESTAMP', true, null, null);
@@ -54,6 +54,8 @@ class PartidoTableMap extends TableMap {
 	 */
 	public function buildRelations()
 	{
+    $this->addRelation('EquipoRelatedByIdequipo1', 'Equipo', RelationMap::MANY_TO_ONE, array('idequipo1' => 'idequipo', ), null, null);
+    $this->addRelation('EquipoRelatedByIdequipo2', 'Equipo', RelationMap::MANY_TO_ONE, array('idequipo2' => 'idequipo', ), null, null);
     $this->addRelation('Pronostico', 'Pronostico', RelationMap::ONE_TO_MANY, array('idpartido' => 'idpartido', ), null, null);
 	} // buildRelations()
 

@@ -1,17 +1,10 @@
 <?php
-	session_start();
-	$msg = "";
-	if(isset($_SESSION['error'])) {
-		switch($_SESSION['error']) {
-			case "BD":
-				$msg = "Error de conexión a la Base de Datos, intente más tarde...";
-				break;
-			case "DI":
-				$msg = "Datos de ingreso incorrectos, intente nuevamente...";
-				break;
-		}
-	}
-	session_destroy();
+	require_once 'includes/init.php';
+	require_once 'includes/ac.php';
+	$grupos = GrupoQuery::create()
+		->join('Grupo.UsuarioGrupo')
+		->where('UsuarioGrupo.Idusuario = ?',$usuario_sesion->getIdusuario())
+		->find();
 ?>
 <html>
 <head>
@@ -20,33 +13,18 @@
 <!--Fireworks MX 2004 Dreamweaver MX 2004 target.  Created Tue May 31 16:17:11 GMT-0500 2011-->
 <style type="text/css">
 <!--
-.style1 {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 14px;
-	font-weight: bold;
-}
-.style2 {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 14px;
-}
-.style3 {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 10px;
-	font-weight: bold;
-}
-.style4 {
+.style7 {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 12px;
-	font-weight: bold;
-	color: #FF0000;
+}
+.style8 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
 }
 -->
 </style></head>
-<body bgcolor="#ffffff" onload="forma.correo.focus();">
+<body bgcolor="#ffffff" onload="forma.nombre.focus();">
   <p>&nbsp;</p>
-  <p>&nbsp;</p>
-  <p>&nbsp;</p>
-<form name="forma" method="post" action="login_accion.php">
   <table width="500" border="0" align="center" cellpadding="0" cellspacing="0">
     <!-- fwtable fwsrc="login.png" fwbase="logo.gif" fwstyle="Dreamweaver" fwdocid = "2086942953" fwnested="0" -->
     <tr>
@@ -66,7 +44,7 @@
       <td><img src="icons/spacer.gif" width="1" height="6" border="0" alt=""></td>
     </tr>
     <tr>
-      <td colspan="5" bgcolor="#00C0EF"><span class="style1">Control de Acceso </span></td>
+      <td colspan="5" bgcolor="#00C0EF"><strong><span class="style7">Selecci&oacute;n de grupo de juego </span></strong></td>
       <td><img src="icons/spacer.gif" width="1" height="19" border="0" alt=""></td>
     </tr>
     <tr>
@@ -74,41 +52,59 @@
       <td><img src="icons/spacer.gif" width="1" height="8" border="0" alt=""></td>
     </tr>
     <tr>
-      <td rowspan="3"><img name="logo_r4_c1" src="icons/logo_r4_c1.gif" width="26" height="238" border="0" alt=""></td>
+      <td rowspan="3" background="icons/logo_r2_c1.gif">&nbsp;</td>
       <td>&nbsp;</td>
       <td><img name="logo_r4_c3" src="icons/logo_r4_c3.gif" width="193" height="92" border="0" alt=""></td>
       <td colspan="3">&nbsp;</td>
-      <td rowspan="3"><img name="logo_r4_c7" src="icons/logo_r4_c7.gif" width="27" height="238" border="0" alt=""></td>
+      <td rowspan="3" background="icons/logo_r4_c7.gif">&nbsp;</td>
       <td><img src="icons/spacer.gif" width="1" height="92" border="0" alt=""></td>
     </tr>
     <tr>
-      <td colspan="5"><table width="100%"  border="0">
+  <td colspan="5"><div align="center">
+    <table width="100%"  border="0" cellpadding="4" cellspacing="4">
+      <tr>
+        <td colspan="2">&nbsp;</td>
+        </tr>
 <?php
-	if($msg != "") {
+	$segunda = 0;
+	foreach($grupos as $grupo) {
+		if(!$segunda) {
+			$Idgrupo0 = $grupo->getIdgrupo();
+			$Nombregrupo0 = $grupo->getNombre();
+			$segunda = 1;
+			continue;
+		}
+		else {
+			$Idgrupo1 = $grupo->getIdgrupo();
+			$Nombregrupo1 = $grupo->getNombre();
+			$segunda = 0;
+		}
 ?>
-          <tr>
-            <td colspan="2"><div align="center"><span class="style4"><?=$msg?></span></div></td>
-          </tr>
+      <tr>
+        <td><div align="center"><a href="seleccion_grupo_juego_handler.php?Idgrupo=<?=$Idgrupo0?>"><img src="icons/mascota.jpg" width="150" height="125" border="0"></a><br>
+          <strong><span class="style8"><a href="seleccion_grupo_juego_handler.php?Idgrupo=<?=$Idgrupo0?>"><?=$Nombregrupo0?></a></span></strong></div></td>
+        <td><div align="center"><a href="seleccion_grupo_juego_handler.php?Idgrupo=<?=$Idgrupo1?>"><img src="icons/mascota.jpg" width="150" height="125" border="0"></a><br>
+          <strong><span class="style8"><a href="seleccion_grupo_juego_handler.php?Idgrupo=<?=$Idgrupo0?>"><?=$Nombregrupo1?></a></span></strong></div></td>
+      </tr>
 <?php
 	}
+	if($segunda) {
 ?>
-          <tr>
-            <td><div align="right"><strong><span class="style2">Correo Electr&oacute;nico </span></strong></div></td>
-            <td><input name="correo" type="text" id="correo" size="35"></td>
-          </tr>
-          <tr>
-            <td><div align="right"><strong><span class="style2">Clave</span></strong></div></td>
-            <td><input name="clave" type="password" id="clave"></td>
-          </tr>
-      </table></td>
+      <tr>
+        <td colspan="2"><div align="center"><a href="seleccion_grupo_juego_handler.php?Idgrupo=<?=$Idgrupo0?>"><img src="icons/mascota.jpg" width="150" height="125" border="0"></a><br>
+          <strong><span class="style8"><a href="seleccion_grupo_juego_handler.php?Idgrupo=<?=$Idgrupo0?>"><?=$Nombregrupo0?></a></span></strong></div></td>
+      </tr>
+<?php
+	}
+	Propel::close();
+?>
+    </table>
+  </div></td>
       <td><img src="icons/spacer.gif" width="1" height="114" border="0" alt=""></td>
     </tr>
     <tr>
-      <td colspan="3"><span class="style3">* <a href="registro_nuevo.php">Registrarme como nuevo participante</a><br>
-        * <a href="registro_nuevo_grupo.php">Ya soy usuario y deseo registrarme en otro grupo?</a>
-      </a></span></td>
-      <td><input type="image" src="icons/logo_r6_c5.gif" width="87" height="32" border="0" alt=""></td>
-      <td>&nbsp;</td>
+      <td colspan="5"><div align="center">
+      </div></td>
       <td><img src="icons/spacer.gif" width="1" height="32" border="0" alt=""></td>
     </tr>
     <tr>
@@ -118,6 +114,5 @@
       <td><img src="icons/spacer.gif" width="1" height="29" border="0" alt=""></td>
     </tr>
   </table>
-</form>
 </body>
 </html>

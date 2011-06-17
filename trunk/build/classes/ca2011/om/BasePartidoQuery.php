@@ -7,8 +7,8 @@
  * 
  *
  * @method     PartidoQuery orderByIdpartido($order = Criteria::ASC) Order by the idpartido column
- * @method     PartidoQuery orderByEquipo1($order = Criteria::ASC) Order by the equipo1 column
- * @method     PartidoQuery orderByEquipo2($order = Criteria::ASC) Order by the equipo2 column
+ * @method     PartidoQuery orderByIdequipo1($order = Criteria::ASC) Order by the idequipo1 column
+ * @method     PartidoQuery orderByIdequipo2($order = Criteria::ASC) Order by the idequipo2 column
  * @method     PartidoQuery orderByResultadoequipo1($order = Criteria::ASC) Order by the resultadoequipo1 column
  * @method     PartidoQuery orderByResultadoequipo2($order = Criteria::ASC) Order by the resultadoequipo2 column
  * @method     PartidoQuery orderByFechahora($order = Criteria::ASC) Order by the fechahora column
@@ -16,8 +16,8 @@
  * @method     PartidoQuery orderByJugado($order = Criteria::ASC) Order by the jugado column
  *
  * @method     PartidoQuery groupByIdpartido() Group by the idpartido column
- * @method     PartidoQuery groupByEquipo1() Group by the equipo1 column
- * @method     PartidoQuery groupByEquipo2() Group by the equipo2 column
+ * @method     PartidoQuery groupByIdequipo1() Group by the idequipo1 column
+ * @method     PartidoQuery groupByIdequipo2() Group by the idequipo2 column
  * @method     PartidoQuery groupByResultadoequipo1() Group by the resultadoequipo1 column
  * @method     PartidoQuery groupByResultadoequipo2() Group by the resultadoequipo2 column
  * @method     PartidoQuery groupByFechahora() Group by the fechahora column
@@ -28,6 +28,14 @@
  * @method     PartidoQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     PartidoQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     PartidoQuery leftJoinEquipoRelatedByIdequipo1($relationAlias = null) Adds a LEFT JOIN clause to the query using the EquipoRelatedByIdequipo1 relation
+ * @method     PartidoQuery rightJoinEquipoRelatedByIdequipo1($relationAlias = null) Adds a RIGHT JOIN clause to the query using the EquipoRelatedByIdequipo1 relation
+ * @method     PartidoQuery innerJoinEquipoRelatedByIdequipo1($relationAlias = null) Adds a INNER JOIN clause to the query using the EquipoRelatedByIdequipo1 relation
+ *
+ * @method     PartidoQuery leftJoinEquipoRelatedByIdequipo2($relationAlias = null) Adds a LEFT JOIN clause to the query using the EquipoRelatedByIdequipo2 relation
+ * @method     PartidoQuery rightJoinEquipoRelatedByIdequipo2($relationAlias = null) Adds a RIGHT JOIN clause to the query using the EquipoRelatedByIdequipo2 relation
+ * @method     PartidoQuery innerJoinEquipoRelatedByIdequipo2($relationAlias = null) Adds a INNER JOIN clause to the query using the EquipoRelatedByIdequipo2 relation
+ *
  * @method     PartidoQuery leftJoinPronostico($relationAlias = null) Adds a LEFT JOIN clause to the query using the Pronostico relation
  * @method     PartidoQuery rightJoinPronostico($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Pronostico relation
  * @method     PartidoQuery innerJoinPronostico($relationAlias = null) Adds a INNER JOIN clause to the query using the Pronostico relation
@@ -36,8 +44,8 @@
  * @method     Partido findOneOrCreate(PropelPDO $con = null) Return the first Partido matching the query, or a new Partido object populated from the query conditions when no match is found
  *
  * @method     Partido findOneByIdpartido(int $idpartido) Return the first Partido filtered by the idpartido column
- * @method     Partido findOneByEquipo1(int $equipo1) Return the first Partido filtered by the equipo1 column
- * @method     Partido findOneByEquipo2(int $equipo2) Return the first Partido filtered by the equipo2 column
+ * @method     Partido findOneByIdequipo1(int $idequipo1) Return the first Partido filtered by the idequipo1 column
+ * @method     Partido findOneByIdequipo2(int $idequipo2) Return the first Partido filtered by the idequipo2 column
  * @method     Partido findOneByResultadoequipo1(int $resultadoequipo1) Return the first Partido filtered by the resultadoequipo1 column
  * @method     Partido findOneByResultadoequipo2(int $resultadoequipo2) Return the first Partido filtered by the resultadoequipo2 column
  * @method     Partido findOneByFechahora(string $fechahora) Return the first Partido filtered by the fechahora column
@@ -45,8 +53,8 @@
  * @method     Partido findOneByJugado(string $jugado) Return the first Partido filtered by the jugado column
  *
  * @method     array findByIdpartido(int $idpartido) Return Partido objects filtered by the idpartido column
- * @method     array findByEquipo1(int $equipo1) Return Partido objects filtered by the equipo1 column
- * @method     array findByEquipo2(int $equipo2) Return Partido objects filtered by the equipo2 column
+ * @method     array findByIdequipo1(int $idequipo1) Return Partido objects filtered by the idequipo1 column
+ * @method     array findByIdequipo2(int $idequipo2) Return Partido objects filtered by the idequipo2 column
  * @method     array findByResultadoequipo1(int $resultadoequipo1) Return Partido objects filtered by the resultadoequipo1 column
  * @method     array findByResultadoequipo2(int $resultadoequipo2) Return Partido objects filtered by the resultadoequipo2 column
  * @method     array findByFechahora(string $fechahora) Return Partido objects filtered by the fechahora column
@@ -188,16 +196,18 @@ abstract class BasePartidoQuery extends ModelCriteria
 	}
 
 	/**
-	 * Filter the query on the equipo1 column
+	 * Filter the query on the idequipo1 column
 	 * 
 	 * Example usage:
 	 * <code>
-	 * $query->filterByEquipo1(1234); // WHERE equipo1 = 1234
-	 * $query->filterByEquipo1(array(12, 34)); // WHERE equipo1 IN (12, 34)
-	 * $query->filterByEquipo1(array('min' => 12)); // WHERE equipo1 > 12
+	 * $query->filterByIdequipo1(1234); // WHERE idequipo1 = 1234
+	 * $query->filterByIdequipo1(array(12, 34)); // WHERE idequipo1 IN (12, 34)
+	 * $query->filterByIdequipo1(array('min' => 12)); // WHERE idequipo1 > 12
 	 * </code>
 	 *
-	 * @param     mixed $equipo1 The value to use as filter.
+	 * @see       filterByEquipoRelatedByIdequipo1()
+	 *
+	 * @param     mixed $idequipo1 The value to use as filter.
 	 *              Use scalar values for equality.
 	 *              Use array values for in_array() equivalent.
 	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
@@ -205,16 +215,16 @@ abstract class BasePartidoQuery extends ModelCriteria
 	 *
 	 * @return    PartidoQuery The current query, for fluid interface
 	 */
-	public function filterByEquipo1($equipo1 = null, $comparison = null)
+	public function filterByIdequipo1($idequipo1 = null, $comparison = null)
 	{
-		if (is_array($equipo1)) {
+		if (is_array($idequipo1)) {
 			$useMinMax = false;
-			if (isset($equipo1['min'])) {
-				$this->addUsingAlias(PartidoPeer::EQUIPO1, $equipo1['min'], Criteria::GREATER_EQUAL);
+			if (isset($idequipo1['min'])) {
+				$this->addUsingAlias(PartidoPeer::IDEQUIPO1, $idequipo1['min'], Criteria::GREATER_EQUAL);
 				$useMinMax = true;
 			}
-			if (isset($equipo1['max'])) {
-				$this->addUsingAlias(PartidoPeer::EQUIPO1, $equipo1['max'], Criteria::LESS_EQUAL);
+			if (isset($idequipo1['max'])) {
+				$this->addUsingAlias(PartidoPeer::IDEQUIPO1, $idequipo1['max'], Criteria::LESS_EQUAL);
 				$useMinMax = true;
 			}
 			if ($useMinMax) {
@@ -224,20 +234,22 @@ abstract class BasePartidoQuery extends ModelCriteria
 				$comparison = Criteria::IN;
 			}
 		}
-		return $this->addUsingAlias(PartidoPeer::EQUIPO1, $equipo1, $comparison);
+		return $this->addUsingAlias(PartidoPeer::IDEQUIPO1, $idequipo1, $comparison);
 	}
 
 	/**
-	 * Filter the query on the equipo2 column
+	 * Filter the query on the idequipo2 column
 	 * 
 	 * Example usage:
 	 * <code>
-	 * $query->filterByEquipo2(1234); // WHERE equipo2 = 1234
-	 * $query->filterByEquipo2(array(12, 34)); // WHERE equipo2 IN (12, 34)
-	 * $query->filterByEquipo2(array('min' => 12)); // WHERE equipo2 > 12
+	 * $query->filterByIdequipo2(1234); // WHERE idequipo2 = 1234
+	 * $query->filterByIdequipo2(array(12, 34)); // WHERE idequipo2 IN (12, 34)
+	 * $query->filterByIdequipo2(array('min' => 12)); // WHERE idequipo2 > 12
 	 * </code>
 	 *
-	 * @param     mixed $equipo2 The value to use as filter.
+	 * @see       filterByEquipoRelatedByIdequipo2()
+	 *
+	 * @param     mixed $idequipo2 The value to use as filter.
 	 *              Use scalar values for equality.
 	 *              Use array values for in_array() equivalent.
 	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
@@ -245,16 +257,16 @@ abstract class BasePartidoQuery extends ModelCriteria
 	 *
 	 * @return    PartidoQuery The current query, for fluid interface
 	 */
-	public function filterByEquipo2($equipo2 = null, $comparison = null)
+	public function filterByIdequipo2($idequipo2 = null, $comparison = null)
 	{
-		if (is_array($equipo2)) {
+		if (is_array($idequipo2)) {
 			$useMinMax = false;
-			if (isset($equipo2['min'])) {
-				$this->addUsingAlias(PartidoPeer::EQUIPO2, $equipo2['min'], Criteria::GREATER_EQUAL);
+			if (isset($idequipo2['min'])) {
+				$this->addUsingAlias(PartidoPeer::IDEQUIPO2, $idequipo2['min'], Criteria::GREATER_EQUAL);
 				$useMinMax = true;
 			}
-			if (isset($equipo2['max'])) {
-				$this->addUsingAlias(PartidoPeer::EQUIPO2, $equipo2['max'], Criteria::LESS_EQUAL);
+			if (isset($idequipo2['max'])) {
+				$this->addUsingAlias(PartidoPeer::IDEQUIPO2, $idequipo2['max'], Criteria::LESS_EQUAL);
 				$useMinMax = true;
 			}
 			if ($useMinMax) {
@@ -264,7 +276,7 @@ abstract class BasePartidoQuery extends ModelCriteria
 				$comparison = Criteria::IN;
 			}
 		}
-		return $this->addUsingAlias(PartidoPeer::EQUIPO2, $equipo2, $comparison);
+		return $this->addUsingAlias(PartidoPeer::IDEQUIPO2, $idequipo2, $comparison);
 	}
 
 	/**
@@ -443,6 +455,154 @@ abstract class BasePartidoQuery extends ModelCriteria
 			}
 		}
 		return $this->addUsingAlias(PartidoPeer::JUGADO, $jugado, $comparison);
+	}
+
+	/**
+	 * Filter the query by a related Equipo object
+	 *
+	 * @param     Equipo|PropelCollection $equipo The related object(s) to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    PartidoQuery The current query, for fluid interface
+	 */
+	public function filterByEquipoRelatedByIdequipo1($equipo, $comparison = null)
+	{
+		if ($equipo instanceof Equipo) {
+			return $this
+				->addUsingAlias(PartidoPeer::IDEQUIPO1, $equipo->getIdequipo(), $comparison);
+		} elseif ($equipo instanceof PropelCollection) {
+			if (null === $comparison) {
+				$comparison = Criteria::IN;
+			}
+			return $this
+				->addUsingAlias(PartidoPeer::IDEQUIPO1, $equipo->toKeyValue('PrimaryKey', 'Idequipo'), $comparison);
+		} else {
+			throw new PropelException('filterByEquipoRelatedByIdequipo1() only accepts arguments of type Equipo or PropelCollection');
+		}
+	}
+
+	/**
+	 * Adds a JOIN clause to the query using the EquipoRelatedByIdequipo1 relation
+	 * 
+	 * @param     string $relationAlias optional alias for the relation
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    PartidoQuery The current query, for fluid interface
+	 */
+	public function joinEquipoRelatedByIdequipo1($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		$tableMap = $this->getTableMap();
+		$relationMap = $tableMap->getRelation('EquipoRelatedByIdequipo1');
+		
+		// create a ModelJoin object for this join
+		$join = new ModelJoin();
+		$join->setJoinType($joinType);
+		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+		if ($previousJoin = $this->getPreviousJoin()) {
+			$join->setPreviousJoin($previousJoin);
+		}
+		
+		// add the ModelJoin to the current object
+		if($relationAlias) {
+			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+			$this->addJoinObject($join, $relationAlias);
+		} else {
+			$this->addJoinObject($join, 'EquipoRelatedByIdequipo1');
+		}
+		
+		return $this;
+	}
+
+	/**
+	 * Use the EquipoRelatedByIdequipo1 relation Equipo object
+	 *
+	 * @see       useQuery()
+	 * 
+	 * @param     string $relationAlias optional alias for the relation,
+	 *                                   to be used as main alias in the secondary query
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    EquipoQuery A secondary query class using the current class as primary query
+	 */
+	public function useEquipoRelatedByIdequipo1Query($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		return $this
+			->joinEquipoRelatedByIdequipo1($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'EquipoRelatedByIdequipo1', 'EquipoQuery');
+	}
+
+	/**
+	 * Filter the query by a related Equipo object
+	 *
+	 * @param     Equipo|PropelCollection $equipo The related object(s) to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    PartidoQuery The current query, for fluid interface
+	 */
+	public function filterByEquipoRelatedByIdequipo2($equipo, $comparison = null)
+	{
+		if ($equipo instanceof Equipo) {
+			return $this
+				->addUsingAlias(PartidoPeer::IDEQUIPO2, $equipo->getIdequipo(), $comparison);
+		} elseif ($equipo instanceof PropelCollection) {
+			if (null === $comparison) {
+				$comparison = Criteria::IN;
+			}
+			return $this
+				->addUsingAlias(PartidoPeer::IDEQUIPO2, $equipo->toKeyValue('PrimaryKey', 'Idequipo'), $comparison);
+		} else {
+			throw new PropelException('filterByEquipoRelatedByIdequipo2() only accepts arguments of type Equipo or PropelCollection');
+		}
+	}
+
+	/**
+	 * Adds a JOIN clause to the query using the EquipoRelatedByIdequipo2 relation
+	 * 
+	 * @param     string $relationAlias optional alias for the relation
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    PartidoQuery The current query, for fluid interface
+	 */
+	public function joinEquipoRelatedByIdequipo2($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		$tableMap = $this->getTableMap();
+		$relationMap = $tableMap->getRelation('EquipoRelatedByIdequipo2');
+		
+		// create a ModelJoin object for this join
+		$join = new ModelJoin();
+		$join->setJoinType($joinType);
+		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+		if ($previousJoin = $this->getPreviousJoin()) {
+			$join->setPreviousJoin($previousJoin);
+		}
+		
+		// add the ModelJoin to the current object
+		if($relationAlias) {
+			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+			$this->addJoinObject($join, $relationAlias);
+		} else {
+			$this->addJoinObject($join, 'EquipoRelatedByIdequipo2');
+		}
+		
+		return $this;
+	}
+
+	/**
+	 * Use the EquipoRelatedByIdequipo2 relation Equipo object
+	 *
+	 * @see       useQuery()
+	 * 
+	 * @param     string $relationAlias optional alias for the relation,
+	 *                                   to be used as main alias in the secondary query
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    EquipoQuery A secondary query class using the current class as primary query
+	 */
+	public function useEquipoRelatedByIdequipo2Query($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		return $this
+			->joinEquipoRelatedByIdequipo2($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'EquipoRelatedByIdequipo2', 'EquipoQuery');
 	}
 
 	/**
