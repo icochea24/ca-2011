@@ -80,6 +80,7 @@
     <column name="idgrupo" phpName="Idgrupo" type="INTEGER" required="true"/>
     <column name="idusuario" phpName="Idusuario" type="BIGINT" required="true"/>
     <column name="acumulado" phpName="Acumulado" type="INTEGER" required="true"/>
+	<column name="administrador" phpName="Administrador" type="VARCHAR" size="1" required="true"/>
 	<id-method-parameter value="pollaca2011_sch.sq_usuario_grupo"/>
     <foreign-key foreignTable="grupo" foreignSchema="pollaca2011_sch" name="Ref_usuario_grupo_to_grupo">
       <reference local="idgrupo" foreign="idgrupo"/>

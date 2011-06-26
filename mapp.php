@@ -10,7 +10,7 @@
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <title>.:. Copa Am&eacute;rica Argentina 2011 .:.</title>
     <!-- dhtmlx.js contains all necessary dhtmlx library javascript code -->
     <script src="codebase/dhtmlx.js" type="text/javascript"></script>
@@ -45,30 +45,44 @@
 		function no_update(nodo) {
 			alert(nodo.firstChild.data);
 		}
-        var layout,menu,toolbar,contactsGrid,contactForm;
+		function apaga_progress() {
+			layout.cells("a").progressOff();
+		}
+		function anade_pagos() {
+			<?php
+				if($_SESSION['administrador'] == 'S') {
+			?>
+					toolbar.addButton("pagos",4,"Pagos","dollar.gif");
+			<?php
+				}
+			?>
+		}
+		var layout,menu,toolbar;
 		dhtmlx.image_path = "codebase/imgs/";
 		dhtmlxEvent(window,"load",function(){
 			//layout
+			//alert('<?=$_SESSION['administrador']?>');
 			layoutp = new dhtmlXLayoutObject(document.body,"1C");
-			layoutp.cells("a").setText(".::. Polla Copa América Argentina - 2011 .::. (<?=$usuario_sesion->getNombre()?> - Grupo <?=$grupo_sesion->getNombre()?>) <?=$msgPago?>");
-			layoutp.cells("a").attachURL("splash.htm");
+			layoutp.cells("a").setText(".::. Polla Copa Am&eacute;rica Argentina - 2011 .::. (<?=$usuario_sesion->getNombre()?> - Grupo <?=$grupo_sesion->getNombre()?>) <?=$msgPago?>");
+			layoutp.cells("a").attachURL("splash.php");
 			toolbar = layoutp.cells("a").attachToolbar();
-			toolbar.setIconsPath("icons/");
-			toolbar.loadXML("xml/toolbar.xml");
+			toolbar.setIconsPath("iconos/");
+			toolbar.loadXML("xml/toolbar.xml",anade_pagos);
 			toolbar.attachEvent("onclick",function(id){
-				layoutp.cells("a").progressOn();
 				if(id=="pronosticos"){
 					layout = new dhtmlXLayoutObject(layoutp.cells("a"),"2U");
 					layout.cells("a").setWidth(770);
 					layout.cells("a").hideHeader();
 					layout.cells("b").hideHeader();
+					layout.cells("b").attachURL("splash2.php");
 					layout.cells("a").fixSize(true,true);
 					toolbarP = layout.cells("a").attachToolbar();
-					toolbarP.setIconsPath("icons/");
+					toolbarP.setIconsPath("iconos/");
 					toolbarP.loadXML("xml/toolbarP.xml");
 					pronosticosGrid = layout.cells("a").attachGrid();
 					pronosticosGrid.enableTooltips("false,false,false,false,false,false,false,false,false,false,false");
-					pronosticosGrid.loadXML("midware.php?a=1");
+					layout.cells("a").progressOn();
+					pronosticosGrid.loadXML("midware.php?a=1",apaga_progress);
 					dp = new dataProcessor("midware.php?a=2");
 					dp.setTransactionMode("POST", true);
 					dp.setUpdateMode("off");
@@ -99,9 +113,50 @@
 					pronosticosGrid.setColSorting("str,str,str,str,str,str,str");
 					pronosticosGrid.init();*/
 				}
+				if(id=="posiciones") {
+					layout = new dhtmlXLayoutObject(layoutp.cells("a"),"2U");
+					layout.cells("a").setWidth(415);
+					layout.cells("a").hideHeader();
+					layout.cells("b").hideHeader();
+					layout.cells("b").attachURL("splash3.php");
+					layout.cells("a").fixSize(true,true);
+					posicionesGrid = layout.cells("a").attachGrid();
+					posicionesGrid.enableTooltips("false,false,false");
+					layout.cells("a").progressOn();
+					posicionesGrid.loadXML("midware.php?a=3",apaga_progress);
+					layoutp.cells("a").showHeader();
+				}
+				if(id=="reglamento") {
+					dhxWins = new dhtmlXWindows();
+					var wr = dhxWins.createWindow("wr", 10, 10, 800, 600);
+					wr.setText('Reglamento Polla Copa América Argentina 2011');
+					wr.setModal(true);
+					wr.attachURL('reglamento.pdf');
+					wr.center();
+					wr.show();
+				}
+				if(id=="pagos") {
+					layout = new dhtmlXLayoutObject(layoutp.cells("a"),"2U");
+					layout.cells("a").setWidth(415);
+					layout.cells("a").hideHeader();
+					layout.cells("b").hideHeader();
+					layout.cells("b").attachURL("splash3.php");
+					layout.cells("a").fixSize(true,true);
+					posicionesGrid = layout.cells("a").attachGrid();
+					posicionesGrid.enableTooltips("false,false");
+					layout.cells("a").progressOn();
+					posicionesGrid.loadXML("midware.php?a=4",apaga_progress);
+					dp = new dataProcessor("midware.php?a=5");
+					dp.setTransactionMode("POST", true);
+					//dp.setUpdateMode("off");
+					dp.defineAction("act_ok",muestraMensaje_i);
+					dp.defineAction("act_ok_1",muestraMensaje_u);
+					dp.defineAction("no_update",no_update);
+					dp.init(posicionesGrid);
+					layoutp.cells("a").showHeader();
+				}
 				if(id=="salir")
-					window.location = "http://localhost/ca2011/login.php";
-				layoutp.cells("a").progressOff();
+					window.location = "login.php";
 			});
 			
 			//if(layout.getEffect("collapse")) alert('ok');
@@ -114,10 +169,10 @@
 			layout.setEffect("resize",false);
 			layout.setEffect("collapse",false);
 			menu = layout.attachMenu();
-			menu.setIconsPath("icons/");
+			menu.setIconsPath("iconos/");
 			menu.loadXML("xml/menu.xml");
 			toolbar = layout.attachToolbar();
-			toolbar.setIconsPath("icons/");
+			toolbar.setIconsPath("iconos/");
 			toolbar.loadXML("xml/toolbar.xml");
 			contactsGrid = layout.cells("a").attachGrid();
 				//contactGrid.setImagePath("./codebase/imgs/");

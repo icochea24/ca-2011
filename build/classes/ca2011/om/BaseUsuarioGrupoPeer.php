@@ -26,13 +26,13 @@ abstract class BaseUsuarioGrupoPeer {
 	const TM_CLASS = 'UsuarioGrupoTableMap';
 	
 	/** The total number of columns. */
-	const NUM_COLUMNS = 4;
+	const NUM_COLUMNS = 5;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
 
 	/** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-	const NUM_HYDRATE_COLUMNS = 4;
+	const NUM_HYDRATE_COLUMNS = 5;
 
 	/** the column name for the IDUSUARIOGRUPO field */
 	const IDUSUARIOGRUPO = 'pollaca2011_sch.usuario_grupo.IDUSUARIOGRUPO';
@@ -45,6 +45,9 @@ abstract class BaseUsuarioGrupoPeer {
 
 	/** the column name for the ACUMULADO field */
 	const ACUMULADO = 'pollaca2011_sch.usuario_grupo.ACUMULADO';
+
+	/** the column name for the ADMINISTRADOR field */
+	const ADMINISTRADOR = 'pollaca2011_sch.usuario_grupo.ADMINISTRADOR';
 
 	/** The default string format for model objects of the related table **/
 	const DEFAULT_STRING_FORMAT = 'YAML';
@@ -65,12 +68,12 @@ abstract class BaseUsuarioGrupoPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	protected static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Idusuariogrupo', 'Idgrupo', 'Idusuario', 'Acumulado', ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('idusuariogrupo', 'idgrupo', 'idusuario', 'acumulado', ),
-		BasePeer::TYPE_COLNAME => array (self::IDUSUARIOGRUPO, self::IDGRUPO, self::IDUSUARIO, self::ACUMULADO, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('IDUSUARIOGRUPO', 'IDGRUPO', 'IDUSUARIO', 'ACUMULADO', ),
-		BasePeer::TYPE_FIELDNAME => array ('idusuariogrupo', 'idgrupo', 'idusuario', 'acumulado', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
+		BasePeer::TYPE_PHPNAME => array ('Idusuariogrupo', 'Idgrupo', 'Idusuario', 'Acumulado', 'Administrador', ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('idusuariogrupo', 'idgrupo', 'idusuario', 'acumulado', 'administrador', ),
+		BasePeer::TYPE_COLNAME => array (self::IDUSUARIOGRUPO, self::IDGRUPO, self::IDUSUARIO, self::ACUMULADO, self::ADMINISTRADOR, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('IDUSUARIOGRUPO', 'IDGRUPO', 'IDUSUARIO', 'ACUMULADO', 'ADMINISTRADOR', ),
+		BasePeer::TYPE_FIELDNAME => array ('idusuariogrupo', 'idgrupo', 'idusuario', 'acumulado', 'administrador', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
 	);
 
 	/**
@@ -80,12 +83,12 @@ abstract class BaseUsuarioGrupoPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	protected static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Idusuariogrupo' => 0, 'Idgrupo' => 1, 'Idusuario' => 2, 'Acumulado' => 3, ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('idusuariogrupo' => 0, 'idgrupo' => 1, 'idusuario' => 2, 'acumulado' => 3, ),
-		BasePeer::TYPE_COLNAME => array (self::IDUSUARIOGRUPO => 0, self::IDGRUPO => 1, self::IDUSUARIO => 2, self::ACUMULADO => 3, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('IDUSUARIOGRUPO' => 0, 'IDGRUPO' => 1, 'IDUSUARIO' => 2, 'ACUMULADO' => 3, ),
-		BasePeer::TYPE_FIELDNAME => array ('idusuariogrupo' => 0, 'idgrupo' => 1, 'idusuario' => 2, 'acumulado' => 3, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
+		BasePeer::TYPE_PHPNAME => array ('Idusuariogrupo' => 0, 'Idgrupo' => 1, 'Idusuario' => 2, 'Acumulado' => 3, 'Administrador' => 4, ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('idusuariogrupo' => 0, 'idgrupo' => 1, 'idusuario' => 2, 'acumulado' => 3, 'administrador' => 4, ),
+		BasePeer::TYPE_COLNAME => array (self::IDUSUARIOGRUPO => 0, self::IDGRUPO => 1, self::IDUSUARIO => 2, self::ACUMULADO => 3, self::ADMINISTRADOR => 4, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('IDUSUARIOGRUPO' => 0, 'IDGRUPO' => 1, 'IDUSUARIO' => 2, 'ACUMULADO' => 3, 'ADMINISTRADOR' => 4, ),
+		BasePeer::TYPE_FIELDNAME => array ('idusuariogrupo' => 0, 'idgrupo' => 1, 'idusuario' => 2, 'acumulado' => 3, 'administrador' => 4, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
 	);
 
 	/**
@@ -161,11 +164,13 @@ abstract class BaseUsuarioGrupoPeer {
 			$criteria->addSelectColumn(UsuarioGrupoPeer::IDGRUPO);
 			$criteria->addSelectColumn(UsuarioGrupoPeer::IDUSUARIO);
 			$criteria->addSelectColumn(UsuarioGrupoPeer::ACUMULADO);
+			$criteria->addSelectColumn(UsuarioGrupoPeer::ADMINISTRADOR);
 		} else {
 			$criteria->addSelectColumn($alias . '.IDUSUARIOGRUPO');
 			$criteria->addSelectColumn($alias . '.IDGRUPO');
 			$criteria->addSelectColumn($alias . '.IDUSUARIO');
 			$criteria->addSelectColumn($alias . '.ACUMULADO');
+			$criteria->addSelectColumn($alias . '.ADMINISTRADOR');
 		}
 	}
 

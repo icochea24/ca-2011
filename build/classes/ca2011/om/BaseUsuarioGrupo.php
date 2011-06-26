@@ -49,6 +49,12 @@ abstract class BaseUsuarioGrupo extends BaseObject  implements Persistent
 	protected $acumulado;
 
 	/**
+	 * The value for the administrador field.
+	 * @var        string
+	 */
+	protected $administrador;
+
+	/**
 	 * @var        Grupo
 	 */
 	protected $aGrupo;
@@ -110,6 +116,16 @@ abstract class BaseUsuarioGrupo extends BaseObject  implements Persistent
 	public function getAcumulado()
 	{
 		return $this->acumulado;
+	}
+
+	/**
+	 * Get the [administrador] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getAdministrador()
+	{
+		return $this->administrador;
 	}
 
 	/**
@@ -201,6 +217,26 @@ abstract class BaseUsuarioGrupo extends BaseObject  implements Persistent
 	} // setAcumulado()
 
 	/**
+	 * Set the value of [administrador] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     UsuarioGrupo The current object (for fluent API support)
+	 */
+	public function setAdministrador($v)
+	{
+		if ($v !== null) {
+			$v = (string) $v;
+		}
+
+		if ($this->administrador !== $v) {
+			$this->administrador = $v;
+			$this->modifiedColumns[] = UsuarioGrupoPeer::ADMINISTRADOR;
+		}
+
+		return $this;
+	} // setAdministrador()
+
+	/**
 	 * Indicates whether the columns in this object are only set to default values.
 	 *
 	 * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -236,6 +272,7 @@ abstract class BaseUsuarioGrupo extends BaseObject  implements Persistent
 			$this->idgrupo = ($row[$startcol + 1] !== null) ? (int) $row[$startcol + 1] : null;
 			$this->idusuario = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
 			$this->acumulado = ($row[$startcol + 3] !== null) ? (int) $row[$startcol + 3] : null;
+			$this->administrador = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
 			$this->resetModified();
 
 			$this->setNew(false);
@@ -244,7 +281,7 @@ abstract class BaseUsuarioGrupo extends BaseObject  implements Persistent
 				$this->ensureConsistency();
 			}
 
-			return $startcol + 4; // 4 = UsuarioGrupoPeer::NUM_HYDRATE_COLUMNS.
+			return $startcol + 5; // 5 = UsuarioGrupoPeer::NUM_HYDRATE_COLUMNS.
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating UsuarioGrupo object", $e);
@@ -600,6 +637,9 @@ abstract class BaseUsuarioGrupo extends BaseObject  implements Persistent
 			case 3:
 				return $this->getAcumulado();
 				break;
+			case 4:
+				return $this->getAdministrador();
+				break;
 			default:
 				return null;
 				break;
@@ -633,6 +673,7 @@ abstract class BaseUsuarioGrupo extends BaseObject  implements Persistent
 			$keys[1] => $this->getIdgrupo(),
 			$keys[2] => $this->getIdusuario(),
 			$keys[3] => $this->getAcumulado(),
+			$keys[4] => $this->getAdministrador(),
 		);
 		if ($includeForeignObjects) {
 			if (null !== $this->aGrupo) {
@@ -684,6 +725,9 @@ abstract class BaseUsuarioGrupo extends BaseObject  implements Persistent
 			case 3:
 				$this->setAcumulado($value);
 				break;
+			case 4:
+				$this->setAdministrador($value);
+				break;
 		} // switch()
 	}
 
@@ -712,6 +756,7 @@ abstract class BaseUsuarioGrupo extends BaseObject  implements Persistent
 		if (array_key_exists($keys[1], $arr)) $this->setIdgrupo($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setIdusuario($arr[$keys[2]]);
 		if (array_key_exists($keys[3], $arr)) $this->setAcumulado($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setAdministrador($arr[$keys[4]]);
 	}
 
 	/**
@@ -727,6 +772,7 @@ abstract class BaseUsuarioGrupo extends BaseObject  implements Persistent
 		if ($this->isColumnModified(UsuarioGrupoPeer::IDGRUPO)) $criteria->add(UsuarioGrupoPeer::IDGRUPO, $this->idgrupo);
 		if ($this->isColumnModified(UsuarioGrupoPeer::IDUSUARIO)) $criteria->add(UsuarioGrupoPeer::IDUSUARIO, $this->idusuario);
 		if ($this->isColumnModified(UsuarioGrupoPeer::ACUMULADO)) $criteria->add(UsuarioGrupoPeer::ACUMULADO, $this->acumulado);
+		if ($this->isColumnModified(UsuarioGrupoPeer::ADMINISTRADOR)) $criteria->add(UsuarioGrupoPeer::ADMINISTRADOR, $this->administrador);
 
 		return $criteria;
 	}
@@ -792,6 +838,7 @@ abstract class BaseUsuarioGrupo extends BaseObject  implements Persistent
 		$copyObj->setIdgrupo($this->getIdgrupo());
 		$copyObj->setIdusuario($this->getIdusuario());
 		$copyObj->setAcumulado($this->getAcumulado());
+		$copyObj->setAdministrador($this->getAdministrador());
 		if ($makeNew) {
 			$copyObj->setNew(true);
 			$copyObj->setIdusuariogrupo(NULL); // this is a auto-increment column, so set to default value
@@ -943,6 +990,7 @@ abstract class BaseUsuarioGrupo extends BaseObject  implements Persistent
 		$this->idgrupo = null;
 		$this->idusuario = null;
 		$this->acumulado = null;
+		$this->administrador = null;
 		$this->alreadyInSave = false;
 		$this->alreadyInValidation = false;
 		$this->clearAllReferences();

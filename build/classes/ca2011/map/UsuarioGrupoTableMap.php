@@ -42,6 +42,7 @@ class UsuarioGrupoTableMap extends TableMap {
 		$this->addForeignKey('IDGRUPO', 'Idgrupo', 'INTEGER', 'pollaca2011_sch.grupo', 'IDGRUPO', true, null, null);
 		$this->addForeignKey('IDUSUARIO', 'Idusuario', 'BIGINT', 'pollaca2011_sch.usuario', 'IDUSUARIO', true, null, null);
 		$this->addColumn('ACUMULADO', 'Acumulado', 'INTEGER', true, null, null);
+		$this->addColumn('ADMINISTRADOR', 'Administrador', 'VARCHAR', true, 1, null);
 		// validators
 	} // initialize()
 
