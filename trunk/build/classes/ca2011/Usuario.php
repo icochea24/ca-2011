@@ -18,7 +18,7 @@ class Usuario extends BaseUsuario {
     public function registraUsuario($datos,$idGrupo) {
         $respuesta = true;
         $claveConfirmaGenerada = md5(rand(10000,99999).$datos['clave']);
-        $this->setNombre($datos['nombre']);
+        $this->setNombre(strtoupper($datos['nombre']));
         $this->setEmail($datos['correo']);
         $this->setClave(md5($datos['clave']));
         $this->setPagook('N');
@@ -27,6 +27,7 @@ class Usuario extends BaseUsuario {
         $usuarioGrupo_obj->setIdgrupo($idGrupo);
         $usuarioGrupo_obj->setUsuario($this);
         $usuarioGrupo_obj->setAcumulado(0);
+        $usuarioGrupo_obj->setAdministrador('N');
         try {
             $usuarioGrupo_obj->save();
         }
@@ -89,12 +90,12 @@ ram;
                 $gxml .= '<row id="'.$pronostico_usuario->getIdpronostico().'">';
                 $gxml .= '<cell'.$estilo.'>P'.$pronostico_usuario->getPartido()->getIdpartido().'</cell>';
                 $gxml .= '<cell'.$estilo.'>'.$pronostico_usuario->getPartido()->getEquipoRelatedByIdequipo1()->getGrupo().'</cell>';
-                $gxml .= '<cell'.$estilo.'>icons/'.$pronostico_usuario->getPartido()->getEquipoRelatedByIdequipo1()->getLinkbandera().'</cell>';
+                $gxml .= '<cell'.$estilo.'>iconos/'.$pronostico_usuario->getPartido()->getEquipoRelatedByIdequipo1()->getLinkbandera().'</cell>';
                 $gxml .= '<cell'.$estilo.'>'.$pronostico_usuario->getPartido()->getEquipoRelatedByIdequipo1()->getNombre().$resultado1_r.'</cell>';
                 $gxml .= '<cell type="'.$ptipo.'" '.$pstyle.'>'.$pronostico_usuario->getPronostico1().'</cell>';
                 $gxml .= '<cell type="'.$ptipo.'" '.$pstyle.'>'.$pronostico_usuario->getPronostico2().'</cell>';
                 $gxml .= '<cell'.$estilo.'>'.$pronostico_usuario->getPartido()->getEquipoRelatedByIdequipo2()->getNombre().$resultado2_r.'</cell>';
-                $gxml .= '<cell'.$estilo.'>icons/'.$pronostico_usuario->getPartido()->getEquipoRelatedByIdequipo2()->getLinkbandera().'</cell>';
+                $gxml .= '<cell'.$estilo.'>iconos/'.$pronostico_usuario->getPartido()->getEquipoRelatedByIdequipo2()->getLinkbandera().'</cell>';
                 $gxml .= '<cell'.$estilo.'>'.$pronostico_usuario->getPartido()->getFechahora().'</cell>';
                 $gxml .= '<cell'.$estilo.'>'.$pronostico_usuario->getPartido()->getSede().'</cell>';
                 $gxml .= '<cell'.$estilo.'>'.$pronostico_usuario->getPuntajeobt().'</cell>';
@@ -112,7 +113,7 @@ ram;
             foreach($partidos as $partido) {
                 $estilo = "";
                 $estilo = "";
-                $ptipo = "ed";
+                $ptipo = "";
                 $pstyle = "";
                 $resultado1 = $partido->getResultadoequipo1();
                 $resultado2 = $partido->getResultadoequipo2();
@@ -123,7 +124,7 @@ ram;
                     $resultado2_r = " (".$resultado2.")";
                 }
                 if($partido->getJugado() != 'N') {
-                    $ptipo = "ro";
+                    $ptipo = 'type="ro" ';
                     $pstyle = 'style="background-color:#999999"';
                     $resultado1 = -1;
                     $resultado2 = -1;
@@ -132,12 +133,12 @@ ram;
                 $gxml .= '<row id="'.$i.'">';
                 $gxml .= '<cell'.$estilo.'>P'.$partido->getIdpartido().'</cell>';
                 $gxml .= '<cell'.$estilo.'>'.$partido->getEquipoRelatedByIdequipo1()->getGrupo().'</cell>';
-                $gxml .= '<cell'.$estilo.'>icons/'.$partido->getEquipoRelatedByIdequipo1()->getLinkbandera().'</cell>';
+                $gxml .= '<cell'.$estilo.'>iconos/'.$partido->getEquipoRelatedByIdequipo1()->getLinkbandera().'</cell>';
                 $gxml .= '<cell'.$estilo.'>'.$partido->getEquipoRelatedByIdequipo1()->getNombre().$resultado1_r.'</cell>';
-                $gxml .= '<cell type="'.$ptipo.'" '.$pstyle.'>'.$resultado1.'</cell>';
+                $gxml .= '<cell '.$ptipo.$pstyle.'>'.$resultado1.'</cell>';
                 $gxml .= '<cell type="'.$ptipo.'" '.$pstyle.'>'.$resultado2.'</cell>';
                 $gxml .= '<cell'.$estilo.'>'.$partido->getEquipoRelatedByIdequipo2()->getNombre().$resultado2_r.'</cell>';
-                $gxml .= '<cell'.$estilo.'>icons/'.$partido->getEquipoRelatedByIdequipo2()->getLinkbandera().'</cell>';
+                $gxml .= '<cell'.$estilo.'>iconos/'.$partido->getEquipoRelatedByIdequipo2()->getLinkbandera().'</cell>';
                 $gxml .= '<cell'.$estilo.'>'.$partido->getFechahora().'</cell>';
                 $gxml .= '<cell'.$estilo.'>'.$partido->getSede().'</cell>';
                 $gxml .= '<cell'.$estilo.'>0</cell>';
@@ -147,6 +148,29 @@ ram;
         }
         $gxml .= '</rows>';
         return $gxml;
+    }
+    
+    public function registraPago(&$gxml) {
+        $resultado = true;
+        $ids = $_REQUEST['ids'];
+        if(strlen($ids) > 0) 
+            $array_ids = split(',',$ids);
+        $usuario_grupo = UsuarioGrupoQuery::create()
+                        ->joinWith('UsuarioGrupo.Usuario')
+                        ->where('UsuarioGrupo.Idusuariogrupo = ?',$array_ids[0])
+                        ->findOne();
+        $usuario_grupo->getUsuario()->setPagook($_REQUEST[$array_ids[0].'_c1']);
+        try {
+            $usuario_grupo->save();
+            $gxml = '<data>';
+            $gxml .= '<action type="update" sid="'.$array_ids[0].'" tid="'.$array_ids[0].'"></action>';
+            $gxml .= '</data>';
+        }
+        catch(Exception $e) {
+            Correo::reportaCorreoError($e,"Actualizando Pago");
+            $resultado = false;
+        }
+        return $resultado;
     }
     
     public function grabaPronosticosUsuario(&$gxml) {

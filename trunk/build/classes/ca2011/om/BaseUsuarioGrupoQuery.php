@@ -10,11 +10,13 @@
  * @method     UsuarioGrupoQuery orderByIdgrupo($order = Criteria::ASC) Order by the idgrupo column
  * @method     UsuarioGrupoQuery orderByIdusuario($order = Criteria::ASC) Order by the idusuario column
  * @method     UsuarioGrupoQuery orderByAcumulado($order = Criteria::ASC) Order by the acumulado column
+ * @method     UsuarioGrupoQuery orderByAdministrador($order = Criteria::ASC) Order by the administrador column
  *
  * @method     UsuarioGrupoQuery groupByIdusuariogrupo() Group by the idusuariogrupo column
  * @method     UsuarioGrupoQuery groupByIdgrupo() Group by the idgrupo column
  * @method     UsuarioGrupoQuery groupByIdusuario() Group by the idusuario column
  * @method     UsuarioGrupoQuery groupByAcumulado() Group by the acumulado column
+ * @method     UsuarioGrupoQuery groupByAdministrador() Group by the administrador column
  *
  * @method     UsuarioGrupoQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     UsuarioGrupoQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -35,11 +37,13 @@
  * @method     UsuarioGrupo findOneByIdgrupo(int $idgrupo) Return the first UsuarioGrupo filtered by the idgrupo column
  * @method     UsuarioGrupo findOneByIdusuario(string $idusuario) Return the first UsuarioGrupo filtered by the idusuario column
  * @method     UsuarioGrupo findOneByAcumulado(int $acumulado) Return the first UsuarioGrupo filtered by the acumulado column
+ * @method     UsuarioGrupo findOneByAdministrador(string $administrador) Return the first UsuarioGrupo filtered by the administrador column
  *
  * @method     array findByIdusuariogrupo(string $idusuariogrupo) Return UsuarioGrupo objects filtered by the idusuariogrupo column
  * @method     array findByIdgrupo(int $idgrupo) Return UsuarioGrupo objects filtered by the idgrupo column
  * @method     array findByIdusuario(string $idusuario) Return UsuarioGrupo objects filtered by the idusuario column
  * @method     array findByAcumulado(int $acumulado) Return UsuarioGrupo objects filtered by the acumulado column
+ * @method     array findByAdministrador(string $administrador) Return UsuarioGrupo objects filtered by the administrador column
  *
  * @package    propel.generator.ca2011.om
  */
@@ -297,6 +301,34 @@ abstract class BaseUsuarioGrupoQuery extends ModelCriteria
 			}
 		}
 		return $this->addUsingAlias(UsuarioGrupoPeer::ACUMULADO, $acumulado, $comparison);
+	}
+
+	/**
+	 * Filter the query on the administrador column
+	 * 
+	 * Example usage:
+	 * <code>
+	 * $query->filterByAdministrador('fooValue');   // WHERE administrador = 'fooValue'
+	 * $query->filterByAdministrador('%fooValue%'); // WHERE administrador LIKE '%fooValue%'
+	 * </code>
+	 *
+	 * @param     string $administrador The value to use as filter.
+	 *              Accepts wildcards (* and % trigger a LIKE)
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    UsuarioGrupoQuery The current query, for fluid interface
+	 */
+	public function filterByAdministrador($administrador = null, $comparison = null)
+	{
+		if (null === $comparison) {
+			if (is_array($administrador)) {
+				$comparison = Criteria::IN;
+			} elseif (preg_match('/[\%\*]/', $administrador)) {
+				$administrador = str_replace('*', '%', $administrador);
+				$comparison = Criteria::LIKE;
+			}
+		}
+		return $this->addUsingAlias(UsuarioGrupoPeer::ADMINISTRADOR, $administrador, $comparison);
 	}
 
 	/**
